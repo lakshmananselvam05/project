@@ -1,0 +1,25 @@
+<div class="navbar">
+    <div class="nav-left">Payroll System</div>
+
+    <div class="nav-links">
+        <a href="{% url 'emp_dashboard' %}"
+            class="{% if request.resolver_match.url_name == 'emp_dashboard' %}active{% endif %}">
+            Dashboard
+        </a>
+
+        <a href="#" class="{% if request.resolver_match.url_name == 'employee' %}active{% endif %}">
+            Employee
+        </a>
+
+        <a href="#" class="{% if request.resolver_match.url_name == 'payroll' %}active{% endif %}">
+            Payroll
+        </a>
+
+        <a href="#" class="{% if request.resolver_match.url_name == 'idcord' %}active{% endif %}">
+            Idcord
+        </a>
+        <a href="#" class="{% if request.resolver_match.url_name == 'attendance' %}active{% endif %}">
+            Attendance
+        </a>
+    </div>
+</div>

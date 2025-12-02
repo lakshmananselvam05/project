@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll System</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    
+    {% include "navbar.html" %}
+
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Menu</h2>
+
+        <a href="{% url 'emp_dashboard' %}"><div class="menu-item">Dashboard</div></a>
+        <a href="#"><div class="menu-item">Employee</div></a>
+        <a href="#"><div class="menu-item">Payroll</div></a>
+        <a href="#"><div class="menu-item">ID Card</div></a>
+        <a href="#"><div class="menu-item">Attendance</div></a>
+        <a href="#"><div class="menu-item">Reports</div></a>
+        <a href="#"><div class="menu-item">Settings</div></a>
+    </div>
+
+</body>
+
+</html>

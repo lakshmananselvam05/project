@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees List</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <form method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <button>submit</button>
+    </form>
+
+    
+    
+
+    <div class="container">
+        <h2>Employees List</h2>
+
+        {% for i in emp %}
+        <div class="item">
+            <li><strong>Name:</strong> {{ i.name }}</li>
+            <li><strong>Employee Id:</strong> {{ i.emp_id }}</li>
+            <li><strong>Email:</strong> {{ i.email }}</li>
+            <li><strong>Gender:</strong> {{ i.Gender }}</li>
+            <li><strong>Phone:</strong> {{ i.phone }}</li>
+            <li><strong>Department:</strong> {{ i.depertment }}</li>
+            <li><strong>Designation:</strong> {{ i.designation }}</li>
+            <li><strong>Salary:</strong> {{ i.salary }}</li>
+             <li><strong>User:</strong> {{ i.user.CustomUser }}</li>
+            <img src="{{ i.photo.url }}" class="img" width="200">
+
+            <div class="actions">
+                <a class="edit-btn" href="{% url 'employee_edit' i.id %}">Edit</a>
+                <a class="delete-btn" href="{% url 'employee_delete' i.id %}">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
