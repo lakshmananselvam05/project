@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Cards</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0909e6;
+            margin: 40px;
+            padding: 20px;
+        }
+
+        .idcard-box {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .logo{
+             width: 70px;
+            height: 70px;
+            border-radius: 50%;      /* Makes it circle */
+            object-fit: cover;       /* Fits perfectly inside */
+            border: 3px solid #fff;
+
+        }
+
+        /* FRONT CARD */
+        .id-card-card {
+            width: 280px;
+            height: 380px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(180deg, #0a1b4f, #012b79);
+            color: white;
+            padding: 20px;
+        }
+
+        .vertical-text {
+            position: absolute;
+            left: -65px;
+            top: 160px;
+            transform: rotate(-90deg);
+            font-size: 60px;
+            opacity: 0.15;
+            font-weight: bold;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .profile-section img {
+            width: 130px;
+            height: 130px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 4px solid #ffffff;
+        }
+
+        .emp-info {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .emp-info h3 {
+            margin: 8px 0 4px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .emp-info p {
+            margin: 3px 0;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        .barcode {
+            width: 90%;
+            height: 50px;
+            background: repeating-linear-gradient(90deg,
+                    #fff 0px,
+                    #fff 2px,
+                    #000 4px,
+                    #000 6px);
+            margin: 20px auto;
+            border-radius: 6px;
+        }
+
+        /* BACK CARD */
+        .id-card-back {
+            width: 280px;
+            height: 380px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(180deg, #012b79, #00091a);
+            color: white;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+        }
+
+        .back-logo {
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .terms {
+            font-size: 14px;
+            line-height: 1.5;
+            opacity: 0.85;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .contact-box p {
+            margin: 6px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="idcard-box">
+
+    {% if id_details %}
+        {% for i in id_details %}
+
+        <!-- FRONT CARD -->
+        <div class="id-card-card">
+             <img src="{% static 'image/Logo (2).png' %}" alt="logo" width="100" height="60px" class="logo">
+            <div class="vertical-text">Employee</div>
+
+            <div class="profile-section">
+                <img src="{{ i.employee.photo.url }}" alt="photo">
+            </div>
+
+            <div class="emp-info">
+                <h3>{{ i.employee }}</h3>
+                <p>Blood Group: {{ i.Blood_Group }}</p>
+                <p>DOB: {{ i.DOB }}</p>
+            </div>
+
+            <div class="barcode"></div>
+        </div>
+
+        <!-- BACK CARD -->
+        <div class="id-card-back">
+            <div class="back-logo">botnet</div>
+
+            <h3 style="text-align:center;margin-bottom:10px;">Terms & Conditions</h3>
+
+            <p class="terms">
+                This ID card must be carried inside office premises.
+                If found, please return to the company.
+            </p>
+
+            <div class="contact-box">
+                <p><strong>Contact</strong></p>
+                <p>+91 879 456 7890</p>
+                <p>info@company.com</p>
+                <p>{{ i.address }}</p>
+                <p>Emergency No: {{ i.Emergency_contact_No }}</p>
+            </div>
+        </div>
+
+        {% endfor %}
+    {% else %}
+        <h1>No ID card generated</h1>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
+

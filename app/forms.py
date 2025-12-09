@@ -15,4 +15,24 @@ class CustomSignupForm(UserCreationForm):
 class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employees
+        # fields = '__all__'
+        exclude = ['emp_id']
+
+class idcordform(forms.ModelForm):
+    class Meta:
+        model =Idcord
+        # exclude = ["employee"]
+        fields = "__all__"
+        widgets = {
+            'employee': forms.HiddenInput(),
+            #  'Blood_Group': forms.TextInput(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Enter Blood Group',
+            # }),
+
+        }
+
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model = Attendance
         fields = '__all__'

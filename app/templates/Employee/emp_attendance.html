@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            width: 380px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info {
+            background: #f8f8f8;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #444;
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 17px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .login-btn {
+            background: #3498db;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: #2980b9;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Employee Attendance</h2>
+
+    <!-- Show server time (Django renders this) -->
+    <div class="info">
+        Date: {{ today }} <br>
+        Time: {{ current_time }}
+    </div>
+
+    <!-- Attendance form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if current_time %}
+            <button type="submit" name="action" value="login" class="btn login-btn">Check in</button>
+        {% else %}
+            <button type="submit" name="action" value="logout" class="btn logout-btn">Check out</button>
+        {% endif %}
+        
+    </form>
+</div>
+
+</body>
+</html>
+
