@@ -14,14 +14,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #0909e6;
+            background: hsl(240, 12%, 85%);
             margin: 0;
             padding: 0;
         }
 
         /* 🔵 ADDING MARGIN TOP BELOW NAVBAR */
         .main-container {
-            margin-top: 100%;     
+            margin-top: 10px;     
             padding: 20px;
         }
         .Logo_img{
@@ -152,10 +152,11 @@
 <body>
 
     {% include "hr_navbar.html" %}
-
+         
+<h1>ID Cards</h1>
     <!-- 🔵 NEW CONTAINER WITH MARGIN TOP -->
     <div class="main-container">
-
+           <h1>ID Cards Details</h1>
         <div class="idcard-box">
 
             {% for i in idcards %}

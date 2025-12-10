@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>HR Attendance Panel</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .filter-box form {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        select, input[type="month"] {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #bbb;
+            width: 200px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #1f78b4;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-collapse: collapse;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    {% include "hr_navbar.html" %}
+
+<div class="container">
+
+    <h2>HR – Employee Attendance Report</h2>
+
+    <!-- FILTERS -->
+    <div class="filter-box">
+        <form method="get">
+            <input type="month" name="month" value="{{ selected_month }}">
+
+            <select name="department">
+                <option value="">All Departments</option>
+                <option value="HR" {% if selected_department == "HR" %}selected{% endif %}>HR</option>
+                <option value="IT" {% if selected_department == "IT" %}selected{% endif %}>IT</option>
+                <option value="Finance" {% if selected_department == "Finance" %}selected{% endif %}>Finance</option>
+                <option value="Marketing" {% if selected_department == "Marketing" %}selected{% endif %}>Marketing</option>
+                <option value="Sales" {% if selected_department == "Sales" %}selected{% endif %}>Sales</option>
+            </select>
+
+            <select name="employee">
+                <option value="">All Employees</option>
+                {% for emp in employees %}
+                    <option value="{{ emp.id }}" {% if selected_employee == emp.id|stringformat:"s" %}selected{% endif %}>
+                        {{ emp.name }} - {{ emp.emp_id }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button class="btn" type="submit">Apply Filter</button>
+        </form>
+    </div>
+
+    <!-- ATTENDANCE TABLE -->
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Employee</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Total Hours</th>
+        </tr>
+
+        {% for att in attendance %}
+        <tr>
+            <td>{{ att.date }}</td>
+            <td>{{ att.employee.name }} ({{ att.employee.emp_id }})</td>
+            <td>{{ att.employee.depertment }}</td>
+            <td>{{ att.status }}</td>
+            <td>{{ att.check_in }}</td>
+            <td>{{ att.check_out }}</td>
+            <td>{{ att.total_hours }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7">No attendance found for selected filters</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>

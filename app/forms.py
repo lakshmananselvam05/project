@@ -34,5 +34,5 @@ class idcordform(forms.ModelForm):
 
 class AttendanceForm(forms.ModelForm):
     class Meta:
-        model = Attendance
+        model = Emp_Attendance
         fields = '__all__'

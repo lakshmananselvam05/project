@@ -45,21 +45,22 @@ class Idcord(models.Model):
     Blood_Group=models.CharField()
     DOB=models.CharField()
     Emergency_contact_No=models.CharField()
-    # employee=models.OneToOneField(Employees,on_delete=models.CASCADE,null=True,blank=True)
+  
 
     def __str__(self):
         return self.address
     
 
 
-class Attendance(models.Model):
-    employees=models.ForeignKey(Employees,on_delete=models.CASCADE)
+class Emp_Attendance(models.Model):
+    employee=models.ForeignKey(Employees,on_delete=models.CASCADE)
     date=models.DateField()
     status=models.CharField(choices=[ ('Present','Present'),('Absent','Absent'),('Leave','Leave'),])
     check_in=models.TimeField(null=True,blank=True)
     check_out=models.TimeField(null=True,blank=True)
-    total_hours=models.FloatField(default=0)
+    total_hours=models.DurationField(default=0)
+
     def __str__(self):
-        return self.status   
+        return f"{self.employee.name} - {self.status}"   
 
     

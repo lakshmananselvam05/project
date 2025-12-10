@@ -9,12 +9,13 @@
         body {
             font-family: Arial, sans-serif;
             background: #f2f2f2;
-            margin: 0;
+            margin: 10;
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
+            height: auto;
+            padding-top: 40px;
         }
 
         .card {
@@ -24,6 +25,7 @@
             border-radius: 12px;
             box-shadow: 0 0 12px rgba(0,0,0,0.2);
             text-align: center;
+            margin-bottom: 15px;
         }
 
         h2 {
@@ -50,6 +52,7 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.3s;
         }
 
         .login-btn {
@@ -62,39 +65,123 @@
             color: white;
         }
 
-        .login-btn:hover {
-            background: #2980b9;
+        .disabled-btn {
+            background: #bdc3c7;
+            color: white;
+            cursor: not-allowed;
         }
 
-        .logout-btn:hover {
-            background: #c0392b;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #3498db;
+            color: white;
         }
     </style>
 </head>
 <body>
+    {% include "Employee/employee_navbar.html" %}
 
-<div class="card">
-    <h2>Employee Attendance</h2>
+<div>
 
-    <!-- Show server time (Django renders this) -->
-    <div class="info">
-        Date: {{ today }} <br>
-        Time: {{ current_time }}
+    <!-- TODAY'S ATTENDANCE CARD -->
+    <div class="card">
+        <h2>Today's Attendance</h2>
+
+        <div class="info">
+            Date: {{ today }} <br>
+            Time: {{ current_time }}<br>
+            Check-in Time: {{checkin}}<br>
+
+            {% if total_hours %}
+                Total Hours: {{ total_hours }}
+            {% endif %}
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% if not checkin %}
+                <button type="submit" name="action" value="login" class="btn login-btn">Check In</button>
+
+            {% elif checkin and not checkout %}
+                <button type="submit" name="action" value="logout" class="btn logout-btn">Check Out</button>
+
+            {% else %}
+                <button class="btn disabled-btn" disabled>Attendance Completed</button>
+            {% endif %}
+        </form>
+
+        <!-- BUTTON TO SHOW HISTORY -->
+        <form method="get">
+            <button type="submit" name="show_history" value="1"
+                    class="btn login-btn" style="margin-top:20px;">
+                Show Attendance History
+            </button>
+        </form>
     </div>
 
-    <!-- Attendance form -->
-    <form method="POST">
-        {% csrf_token %}
 
-        {% if current_time %}
-            <button type="submit" name="action" value="login" class="btn login-btn">Check in</button>
-        {% else %}
-            <button type="submit" name="action" value="logout" class="btn logout-btn">Check out</button>
-        {% endif %}
-        
-    </form>
+    <!-- ONLY SHOW WHEN CLICKED -->
+    {% if show_history %}
+    <div class="card">
+        <h2>Attendance History</h2>
+
+        <form method="get">
+            <input type="hidden" name="show_history" value="1">
+
+            <select name="month">
+                {% for m in months %}
+                    <option value="{{ m.month }}"
+                        {% if m.month == selected_month and m.year == selected_year %} selected {% endif %}>
+                        {{ m.month }} - {{ m.year }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" class="btn login-btn" style="margin-top:10px;">
+                Filter
+            </button>
+        </form>
+
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Total Hours</th>
+                <th>Status</th>
+            </tr>
+
+            {% for att in attendance_history %}
+            <tr>
+                <td>{{ att.date }}</td>
+                <td>{{ att.check_in }}</td>
+                <td>{{ att.check_out }}</td>
+                <td>{{ att.total_hours }}</td>
+                <td>{{ att.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No attendance found for this month.</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+    {% endif %}
+
 </div>
 
 </body>
 </html>
-

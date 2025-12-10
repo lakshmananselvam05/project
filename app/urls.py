@@ -11,8 +11,9 @@ urlpatterns=[
     path("create-employees/",emplyoee_form,name="create-employee"),
     path('idcard/',idcord_view,name="idcards"),
     path('create-id/<int:emp_id>/',id_cords_detalis,name='create-id'),
+    path("hr/attendance-panel/", hr_attendance_panel, name="hr_attendance_panel"),
 
-    path("login/",employee_login,name="employee-login"),
+    path("",employee_login,name="employee-login"),
     path('attendance/',attendance_view,name='attendance'),
 #-----------------------------employee details---------------------------------------------------------------------------------
     path('emp_dashboard/',dashborad_view,name='emp_dashboard'),

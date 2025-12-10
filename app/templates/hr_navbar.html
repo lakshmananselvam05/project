@@ -18,6 +18,7 @@
             <div class="dropdown-content">
                 <a href="{% url 'employee' %}">View Employees</a>
                 <a href="{% url 'create' %}">Create Employee</a>
+                <a href="{% url 'create-employee' %}">Update Employee</a>
             </div>
         </div>
 
@@ -29,8 +30,8 @@
             ID Card
         </a>
 
-        <a href="{% url 'attendance' %}"
-            class="{% if request.resolver_match.url_name == 'attendance' %}active{% endif %}">
+        <a href="{% url 'hr_attendance_panel' %}"
+            class="{% if request.resolver_match.url_name == 'hr_attendance_panel' %}active{% endif %}">
             Attendance
         </a>
         <a href="{% url 'employee-login' %}"
