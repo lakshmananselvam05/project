@@ -68,7 +68,7 @@ class emp_Salary(models.Model):
     month=models.CharField()
     year=models.IntegerField()
     present_days=models.IntegerField()
-    salary=models.FloatField()
+    salary=models.DecimalField(max_digits=10, decimal_places=2)
     
     def __str__(self):
         return f"{self.employee.name} {self.month}"

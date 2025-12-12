@@ -262,8 +262,82 @@ def id_card_view(request):
 
 
 def employee_salary_view(request):
-    data=emp_Salary.objects.all()
-    return render(request,employee_salary.html,{'data':data})
+    date = datetime.now()
+    month = date.strftime("%B")
+    print(month)
+    year = date.year
+    data=emp_Salary.objects.filter(month=month,year=year)
+    if request.method=="POST":
+         print("hello")
+         month = request.POST.get("month") 
+         print(month)     # format: YYYY-MM
+
+         if month:
+            m = datetime.strptime(month, "%Y-%m")
+            mon= m.strftime("%B")
+            print(m.month,m.year)
+            data=emp_Salary.objects.filter(month=mon,year=m.year)
+            print(data)
+            return render(request,'salary.html',{'data':data})
+    return render(request,'salary.html',{'data':data})
 
 
+def generate_salary(request):
+    month = request.GET.get("month")      # format: YYYY-MM
+
+    if month:
+        m = datetime.strptime(month, "%Y-%m")
+
+    employees = Employees.objects.all()
+
+    for emp in employees:
+
+        # Fetch attendance for selected month
+        attendance_qs = Emp_Attendance.objects.filter(
+            employee=emp,
+            date__year=m.year,
+            date__month=m.month
+        )
+
+        # Calculate & Save Salary
+        calculate_salary(emp, attendance_qs, m)
+
+    return redirect('emp-salary')
+
+
+
+def calculate_salary(employee, attendance_qs, month_obj):
+    # Count present days
+    present_days = attendance_qs.filter(status="Present").count()
+
+    # Example: assume employee has a daily salary
+    # If your Employees model has salary_per_day field, use it
+    daily_salary = employee.salary/30
+
+    # Calculate salary
+    total_salary = present_days * daily_salary
+
+    # Save to emp_Salary table
+    emp_Salary.objects.update_or_create(
+        employee=employee,
+        month=month_obj.strftime("%B"),  # Example: "January"
+        year=month_obj.year,
+        defaults={
+            "present_days": present_days,
+            "salary": total_salary,
+        }
+    )
+
+def employee_salary_slip(request,sal_id):
+
+    salary=emp_Salary.objects.filter(employee=sal_id).first()
+    print(salary)
+    return render(request,'emp_salary_slip.html',{'i':salary})
+
+#--------------------------------------------------Employee salary------------------------------------------------------------
+def silp_view(request):
+    emp = Employees.objects.get(user=request.user)
+
+    salary = emp_Salary.objects.filter(employee=emp)   # GET ALL RECORDS
+    return render(request, 'Employee/employee_slip_salary.html', {'salary': salary})
 

@@ -6,18 +6,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Edit</title>
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    
-   
 
+    <style>
+        /* PAGE BASE */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10;
+            padding: 0;
+            /* background: #f6f7fa; */
+        }
+
+        /* SCROLL CONTAINER */
+        .page-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 90px;
+            height: calc(100vh - 90px);
+            overflow-y: scroll;
+            padding-bottom: 30px;
+        }
+
+        /* FORM BOX */
+        .edit-form-box {
+            width: 450px;
+            background: #fff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* TITLE */
+        .edit-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            margin-top: 290px;
+            color: #333;
+        }
+
+        /* FIX: Ensure Django form fields show */
+        .edit-form-box form p {
+            display: block !important;
+            margin-bottom: 16px;
+        }
+
+        .edit-form-box form label {
+            font-weight: bold;
+            color: #444;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* INPUT FIELDS */
+        .edit-form-box form input,
+        .edit-form-box form select,
+        .edit-form-box form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cfcfcf;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #fafafa;
+            transition: 0.3s;
+        }
+
+        .edit-form-box form input:focus,
+        .edit-form-box form select:focus,
+        .edit-form-box form textarea:focus {
+            border-color: #4a90e2;
+            background: #fff;
+            box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
+        }
+
+        /* BUTTON */
+        .edit-form-box button {
+            width: 100%;
+            padding: 12px;
+            background: #4a90e2;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+        .edit-form-box button:hover {
+            background: #357ac9;
+        }
+    </style>
 </head>
 
 <body>
 
     {% include "hr_navbar.html" %}
 
-    <!-- Main Page Wrapper -->
     <div class="page-container">
 
         <div class="edit-form-box">
@@ -34,5 +120,5 @@
     </div>
 
 </body>
-</html>
 
+</html>

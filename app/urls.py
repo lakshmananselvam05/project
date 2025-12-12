@@ -20,7 +20,10 @@ urlpatterns=[
     path("id_card/",id_card_view,name="id-details"),
     path("emp-attendance/",employee_attendance_view,name="emp-attendance"),
     path("emp-salary/",employee_salary_view,name="emp-salary"),
-    
+    path("generate-salary/",generate_salary,name="gen-sal"),
+    path("emp-salary-slip/<int:sal_id>/",employee_salary_slip,name="emp-salary-slip"),
+    path("silp-view/",silp_view,name="silp_view"),
+
 
 
 ]

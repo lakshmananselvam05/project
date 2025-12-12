@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Salary</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        body {
+            /* background: #f4f6ff; */
+            font-family: "Poppins", sans-serif;
+        }
+
+        /* Main wrapper */
+        .page-wrapper {
+            margin-top: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            padding: 0 40px;
+        }
+
+        /* Filter Section */
+        .filter-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            width: 380px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            margin-left: 450px;
+        }
+
+        .filter-box form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-box input[type="month"] {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #b5b5b5;
+            width: 180px;
+            font-size: 15px;
+        }
+
+        .filter-box button {
+            background: #031e88;
+            color: white;
+            border: none;
+            padding: 9px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        .filter-box button:hover {
+            background: #02135a;
+        }
+
+        /* Table Container */
+        .table-container {
+            width: 100%;
+            max-height: 420px;
+            overflow-y: auto;
+            /* background: rgba(255, 255, 255, 0.215); */
+            padding: 0;
+            border-radius: 12px;
+            /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); */
+            /* color: #031e88; */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+
+        th {
+            background: #031e88;
+            /* color: white; */
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #eef1ff26;
+        }
+
+        tr:hover {
+            background: #d9e0ff;
+            transition: 0.2s;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {% include "hr_navbar.html" %}
+
+    <div class="page-wrapper">
+
+        <!-- Filter Section -->
+        <div class="filter-box">
+            <form method="get" action="{% url 'gen-sal' %}">
+                <input type="month" name="month" value="{{ selected_month }}">
+                <button type="submit">Generate Salary</button>
+            </form>
+           
+        </div>
+        <div class="filter-box">
+            
+             <form method="post" action="{% url 'emp-salary' %}">
+                {% csrf_token %}
+                <input type="month" name="month" value="{{ selected_month }}">
+                <button type="submit">View Salary</button>
+            </form>
+        </div>
+
+        <!-- Salary Table -->
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Month</th>
+                    <th>Year</th>
+                    <th>Present Days</th>
+                    <th>Salary</th>
+                </tr>
+
+                {% for i in data %}
+                <tr>
+                    <td>{{ i.employee }}</td>
+                    <td>{{ i.month }}</td>
+                    <td>{{ i.year }}</td>
+                    <td>{{ i.present_days }}</td>
+                    <td>{{ i.salary }}</td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+

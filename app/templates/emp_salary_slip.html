@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salary Slip</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* background: #f4f6f9; */
+            padding: 30px;
+        }
+
+        .slip-table {
+            width: 60%;
+            margin: 40px auto;
+            border-collapse: collapse;
+            /* background: #fff; */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-top: 90px;
+        }
+
+        .slip-table th {
+            background: #4c03a5;
+            color: #fff;
+            text-align: left;
+            padding: 12px 18px;
+            width: 40%;
+            font-size: 16px;
+        }
+
+        .slip-table td {
+            /* background: #fafafa; */
+            padding: 12px 18px;
+            font-size: 16px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .slip-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .slip-table td b {
+            font-size: 18px;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include "hr_navbar.html" %}
+
+    <table class="slip-table">
+
+       
+        <tr>
+            <th>Employee Name</th>
+            <td>{{ i.employee.name }}</td>
+        </tr>
+
+        <tr>
+            <th>Month</th>
+            <td>{{ i.month }}</td>
+        </tr>
+
+        <tr>
+            <th>Year</th>
+            <td>{{ i.year }}</td>
+        </tr>
+
+        <tr>
+            <th>Present Days</th>
+            <td>{{ i.present_days }}</td>
+        </tr>
+
+        <tr>
+            <th>Total Salary</th>
+            <td><b>₹ {{ i.salary }}</b></td>
+        </tr>
+      
+
+    </table>
+
+</body>
+</html>

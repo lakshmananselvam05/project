@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <a href="#" class="{% if request.resolver_match.url_name == 'payroll' %}active{% endif %}">
+        <a href="{% url 'emp-salary' %}" class="{% if request.resolver_match.url_name == 'emp-salary' %}active{% endif %}">
             Payroll
         </a>
 

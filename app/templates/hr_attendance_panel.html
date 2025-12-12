@@ -30,7 +30,6 @@
             border-radius: 5px;
             align-items: center;
             margin-left: 80px;
-            
         }
 
         .filter-box form {
@@ -56,6 +55,7 @@
              align-items: center;
             margin-left: 80px;
         }
+       
 
         th, td {
             padding: 10px;
@@ -127,7 +127,9 @@
             <td>{{ att.check_in }}</td>
             <td>{{ att.check_out }}</td>
             <td>{{ att.total_hours }}</td>
-            <td></td>
+            <td>
+                <a href="{% url 'emp-salary-slip' att.employee.id %}">View Salary</a>
+            </td>
         </tr>
         {% empty %}
         <tr>
@@ -140,4 +142,3 @@
 
 </body>
 </html>
-
