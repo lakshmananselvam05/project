@@ -8,24 +8,121 @@
     <title>Create Employee</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+
+        /* FIX NAVBAR */
+        .navbar-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+        }
+
+        /* MAIN PAGE SETTINGS */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* background: #f4f6f9; */
+            overflow: hidden; 
+        }
+
+        /* Area under navbar */
+        .page-area {
+            margin-top: 100px;       
+            height: calc(100vh - 99px);
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto; 
+        }
+
+        /* FORM CARD */
+        .form-container_box {
+            width: 420px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            background: #24025e62;
+            height: 780px;
+        }
+
+        .form-container_box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1a237e;
+            font-weight: bold;
+        }
+
+        /* Style django form */
+        .form-container_box p {
+            margin-bottom: 15px;
+        }
+
+        .form-container_box label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-container_box input,
+        .form-container_box select {
+            width: 90%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #999;
+        }
+
+        /* Button */
+        .form-container_box button {
+            width: 90%;
+            padding: 12px;
+            margin-top: 12px;
+            border: none;
+            background: #1a237e;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .form-container_box button:hover {
+            background: #000051;
+        }
+
+    </style>
 </head>
 
 <body>
 
-    {% include "hr_navbar.html" %}
+    <!-- FIXED NAVBAR -->
+    <div class="navbar-fixed">
+        {% include "hr_navbar.html" %}
+    </div>
 
-    <div class="form-container_box">
-        <h2>Create Employee</h2>
+    <!-- SCROLLING BOX -->
+    <div class="page-area">
 
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit</button>
-        </form>
+        <div class="form-container_box">
+            <h2>Create Employee</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
     </div>
 
 </body>
 
 </html>
+
+
 
 

@@ -1,212 +1,106 @@
 /* ---------------------------------------------------hr_navbar----------------------------------------------------------------------------- */
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
 
-/* NAVBAR */
+/* ================= NAVBAR WRAPPER ================= */
 .navbar {
-    width: 100%;
-  background: #026da2;
-    color: white;
-    padding: 15px 20px;
+    width: 95%;
+    /* margin-left: 40px; */
+    padding: 12px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    
+    position: fixed;
+    top: 0; 
+    z-index: 999;
+
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+        0 0 25px rgba(0,234,255,0.3),
+        0 0 40px rgba(255,0,200,0.25);
+
+    animation: navFade 1s ease forwards;
 }
 
-.nav-left {
-    font-size: 22px;
-    font-weight: bold;
+@keyframes navFade {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
+/* ================= LEFT LOGO (UPDATED) ================= */
+.nav-left img {
+    border-radius: 18px;  /* Rounded corners */
+    padding: 4px;
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(6px);
+
+    filter: drop-shadow(0 0 12px rgba(0,234,255,0.6));
+    transition: 0.35s ease-in-out;
+}
+
+.nav-left img:hover {
+    transform: scale(1.07) rotate(1deg);
+    border-radius: 22px;
+
+    filter:
+        drop-shadow(0 0 18px rgba(255,0,200,0.85))
+        drop-shadow(0 0 25px rgba(0,234,255,0.8));
+}
+
+/* ================= NAV LINKS ================= */
 .nav-links {
     display: flex;
+    gap: 35px;
     align-items: center;
-    gap: 20px;
 }
 
 .nav-links a,
 .dropbtn {
-    color: white;
+    /* color: #e5e5e5; */
+    font-size: 17px;
+    font-weight: 600;
     text-decoration: none;
-    padding: 10px 15px;
-    transition: 0.3s ease;
+    padding: 10px 0;
+
+    position: relative;
+    cursor: pointer;
+
+    transition: 0.3s ease-in-out;
 }
 
-.nav-links a:hover,
-.dropbtn:hover {
-    background: #1abc9c;
-    border-radius: 5px;
+/* GLOW UNDERLINE HOVER */
+.nav-links a::after,
+.dropbtn::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 3px;
+
+    background: linear-gradient(90deg, #ff00c8, #00eaff);
+
+    box-shadow: 0 0 10px #00eaff;
+
+    transition: width 0.4s ease-in-out;
+}
+
+.nav-links a:hover::after,
+.dropbtn:hover::after {
+    width: 100%;
 }
 
 /* ACTIVE LINK */
-.active {
-    background: #1abc9c;
-    border-radius: 5px;
+.nav-links a.active {
+    color: #00eaff;
+    text-shadow: 0 0 10px #00eaff;
 }
 
-/* ------------------ DROPDOWN MENU ------------------ */
-
-
-/* ============================
-   DROPDOWN MENU
-   ============================ */
-.dropdown {
-    position: relative;
-    gap: 10px;
-    display: inline-block;
-}
-
-.dropbtn {
-    color: #fff;
-    padding: 8px 12px;
-    cursor: pointer;
-}
-
-.dropdown:hover .dropbtn,
-.dropdown.active .dropbtn {
-    background: #4b6cb7;
-    border-radius: 5px;
-}
-
-/* DROPDOWN CONTENT */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #2c2c2c;
-    min-width: 160px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-    z-index: 20;
-    border-radius: 5px;
-}
-
-.dropdown-content a {
-    color: white;
-    padding: 10px 14px;
-    text-decoration: none;
-    display: block;
-    border-bottom: 1px solid #3e3e3e;
-}
-
-.dropdown-content a:last-child {
-    border-bottom: none;
-}
-
-.dropdown-content a:hover {
-    background-color: #4b6cb7;
-}
-
-/* SHOW DROPDOWN ON HOVER */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* ------------------ RESPONSIVE MEDIA QUERIES ------------------ */
-
-/* TABLETS */
-@media(max-width: 768px) {
-    .nav-links {
-        gap: 10px;
-    }
-
-    .nav-left {
-        font-size: 20px;
-         width: 70px;
-            height: 70px;
-            border-radius: 50%;      /* Makes it circle */
-            object-fit: cover;       /* Fits perfectly inside */
-            border: 3px solid #fff;
-    }
-}
-
-/* MOBILE */
-@media(max-width: 600px) {
-
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .dropdown-content {
-        position: relative;
-        top: 0;
-        left: 0;
-        width: 100%;
-    }
-}
-
-/* EXTRA SMALL SCREENS */
-@media(max-width: 420px) {
-    .nav-links a,
-    .dropbtn {
-        padding: 8px 10px;
-        font-size: 14px;
-    }
-
-    .nav-left {
-        font-size: 18px;
-    }
-}
-
-/*-----------------------------------------------------------hr_dashboard--------------------------------------------------------------------- */
-/* BASIC RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 250px;
-    height: 100vh;
-    background: #026da2;
-    color: white;
-    color: #fff;
-    padding: 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-.sidebar h2 {
-    font-size: 22px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* MENU ITEMS */
-.menu-item {
-    padding: 12px 15px;
-    background: #34495e;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.menu-item:hover {
-    background: #1abc9c;
-}
-
-/* Remove underline from links */
-.sidebar a {
-    text-decoration: none;
-    color: white;
-}
-
-/* DROPDOWN */
+/* ================= DROPDOWN ================= */
 .dropdown {
     position: relative;
 }
@@ -214,792 +108,552 @@
 .dropdown-content {
     display: none;
     flex-direction: column;
-    background: #3b5161;
-    margin-top: 5px;
-    border-radius: 6px;
+
+    position: absolute;
+    top: 38px;
+    left: 0;
+
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(12px);
+
+    min-width: 180px;
+    border-radius: 12px;
+    padding: 12px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+        0 0 20px rgba(0,234,255,0.4),
+        0 0 30px rgba(255,0,200,0.35);
+
+    animation: dropdownFade 0.3s ease;
 }
 
+@keyframes dropdownFade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+/* DROPDOWN LINKS */
 .dropdown-content a {
-    padding: 10px 15px;
-    display: block;
-    border-bottom: 1px solid #2c3e50;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 8px;
+    color: #e5e5e5;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
 .dropdown-content a:hover {
-    background: #16a085;
+    background: linear-gradient(to right, #ff00c8, #00eaff);
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #00eaff;
 }
 
-/* SHOW DROPDOWN ON HOVER */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-/* ---------------- RESPONSIVE DESIGN ---------------- */
-
-/* SMALL SCREEN: Sidebar collapses to top bar */
-@media only screen and (max-width: 768px) {
-
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 20px;
     }
 
-    .sidebar h2 {
-        width: 100%;
-        text-align: left;
-        margin-bottom: 10px;
+    .nav-links {
+        gap: 18px;
     }
 
-    .menu-item {
-        width: auto;
-        margin-right: 10px;
-    }
-
-    /* Dropdown becomes click-based */
-    .dropdown-content {
-        position: absolute;
-        background: #2c3e50;
-        width: 150px;
-        margin-top: 5px;
+    .nav-links a,
+    .dropbtn {
+        font-size: 15px;
     }
 }
-
-/* EXTRA SMALL SCREENS */
-@media only screen and (max-width: 480px) {
-    .menu-item {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    .dropdown-content a {
-        font-size: 14px;
-    }
-}
-
-/*-------------------------------------------------------------------------------------------------------------------------------- */
-/* -----------------------
-   NAVBAR (Top Fixed)
-------------------------*/
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-      background: #026da2;
-    color: white;
-    color: rgb(29, 226, 11);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    z-index: 1000;
-}
-
-/* -----------------------
-   SIDEBAR (Below Navbar)
-------------------------*/
-.sidebar {
-    position: fixed;
-    top: 60px; /* SAME AS NAVBAR HEIGHT */
-    left: 0;
-    width: 230px;
-    height: calc(100vh - 60px);
-    background: #2e2e42;
-    padding-top: 20px;
-    color: white;
-}
-
-.sidebar .menu-item {
-    padding: 12px 20px;
-    margin-bottom: 8px;
-    background: #3c3c58;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.sidebar .menu-item:hover {
-    background: #505072;
-}
-/*--------------------------------------------------create------------------------------------------------------------------------------ */
-
-/* -----------------------
-   CONTENT ALIGNMENT
-------------------------*/
+/* ------------------------------------------------------create_hr----------------------------------------------------------------------*/
+/* ---------------- GLOBAL BACKGROUND ---------------- */
 body {
     margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at top, #14001f, #000000 70%);
+    min-height: 100vh;
+    color: white;
+    padding-top: 80px;
 }
 
-/* Content should start after sidebar */
-form {
-    /* margin-left: 260px; sidebar width + spacing */
-    margin-top: 10px;  
-    padding: 20px;
+/* Remove HR navbar influence */
+hr_navbar {
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
-/* ---------- FORM CONTAINER ---------- */
+/* ---------------- AURORA BACKGROUND ---------------- */
+/* .aurora {
+    position:fixed;
+    width: 500px;
+    height: 500px;
+    background: conic-gradient(from 180deg, #ff00c8, #00e5ff, #a200ff, #ff00c8);
+    filter: blur(180px);
+    opacity: 0.35;
+    animation: rotateAura 25s infinite linear;
+    z-index: -1;
+} */
+
+@keyframes rotateAura {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ---------------- PARTICLES ---------------- */
+.particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(9, 129, 203, 0.7);
+    animation: floatUp 12s infinite linear;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-900px) scale(0.2); opacity: 0; }
+}
+
+.particle:nth-child(3n) { background: #00eaff; animation-duration: 8s; }
+.particle:nth-child(4n) { background: #ff00d4; animation-duration: 10s; }
+.particle:nth-child(5n) { background: #ffaa00; animation-duration: 14s; }
+
+/* ---------------- FORM CONTAINER ---------------- */
 .form-container {
-    width: 400px;
-    margin: 40px auto;
-    background: #ffffff;
-    padding: 25px 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    animation: fadeIn 0.5s ease-in-out;
+    width: 420px;
+    margin: 10px auto;
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(16px);
+    padding: 70px;
+    border-radius: 25px;
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+        0 0 30px rgba(0,234,255,0.4),
+        0 0 70px rgba(255,0,200,0.3);
+
+    animation: fadeIn 1.2s ease forwards;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(40px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .form-container h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #2c3e50;
+    font-size: 32px;
+    background: linear-gradient(90deg, #ff00c8, #00eaff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* ---------- FORM ELEMENTS (one-by-one box style) ---------- */
+/* ---------------- DJANGO FORM FIELD STYLE ---------------- */
 form p {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
+    position: relative;
+    margin: 20px 0;
+    font-size: 16px;
 }
 
 form label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #2c3e50;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #e1e1e1;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px #00eaff;
+    animation: labelGlow 2s infinite alternate;
+}
+
+@keyframes labelGlow {
+    0% { text-shadow: 0 0 6px #00eaff; }
+    100% { text-shadow: 0 0 12px #ff00d4; }
 }
 
 form input,
 form select,
 form textarea {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
     font-size: 16px;
+
+    background: rgba(255, 255, 255, 0.021);
+    border: 1px solid rgba(255,255,255,0.2);
+    /* color: rgb(255, 255, 255); */
     outline: none;
-    transition: 0.3s ease;
+
+    transition: 0.4s;
 }
 
-/* Focus effect */
 form input:focus,
 form select:focus,
 form textarea:focus {
-    border-color: #1abc9c;
-    box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+    border-color: #00eaff;
+    box-shadow: 0 0 12px #00eaff;
 }
 
-/* Submit Button */
-form button {
+/* ---------------- BUTTON ---------------- */
+button[type="submit"] {
     width: 100%;
-    padding: 12px;
-    background: #1abc9c;
+    padding: 14px;
+    border-radius: 35px;
     border: none;
     font-size: 18px;
-    color: white;
-    border-radius: 6px;
+    font-weight: 700;
     cursor: pointer;
     margin-top: 10px;
-    transition: 0.3s ease;
+    color: white;
+    background: linear-gradient(135deg, #ff00c8, #00eaff);
+
+    box-shadow:
+        0 0 25px rgba(0,234,255,0.5),
+        0 0 55px rgba(255,0,200,0.4);
+
+    transition: 0.4s;
 }
 
-form button:hover {
-    background: #16a085;
+button[type="submit"]:hover {
+    transform: scale(1.06);
+    box-shadow:
+        0 0 40px rgba(0,234,255,0.8),
+        0 0 90px rgba(255,0,200,0.7);
 }
 
-/* ---------- Animation ---------- */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* ---------------- LOGIN LINK ---------------- */
+.form-container div {
+    margin-top: 10px;
+    text-align: center;
+    color: #d1d1d1;
 }
 
-/* -----------------------------------------------------------
-   RESPONSIVE DESIGN (MEDIA QUERIES)
------------------------------------------------------------- */
-
-/* Tablets */
-@media (max-width: 992px) {
-    .form-container {
-        width: 70%;
-    }
+.form-container div a {
+    color: #00eaff;
+    font-weight: bold;
+    text-decoration: none;
+    animation: glow 2s infinite;
 }
 
-/* Mobile Landscape + Small Tablets */
-@media (max-width: 768px) {
-    .form-container {
-        width: 85%;
-        padding: 20px;
-    }
-
-    form input, form select, form textarea {
-        font-size: 15px;
-        padding: 10px;
-    }
+@keyframes glow {
+    0% { text-shadow: 0 0 4px #00eaff; }
+    50% { text-shadow: 0 0 12px #ff00c8; }
+    100% { text-shadow: 0 0 4px #00eaff; }
 }
-
-/* Mobile Portrait */
-@media (max-width: 480px) {
-    .form-container {
-        width: 95%;
-        padding: 15px;
-    }
-
-    .form-container h2 {
-        font-size: 20px;
-    }
-
-    form button {
-        font-size: 16px;
-        padding: 10px;
-    }
-}
-/* ------------------------------------employee------------------------------------------------------------ */
-/* ===============================
-   GLOBAL STYLES
-================================*/
+/*-----------------------------------------------------------employees_details--------------------------------------------------------------------- */
+/* ===================== GLOBAL ===================== */
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
     margin: 0;
     padding: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #0a0f24, #101a40);
+    color: white;
+    overflow: hidden; /* No page scroll */
 }
 
+/* ===================== NAVBAR ===================== */
+.navbar {
+    width: 98%;
+    padding: 14px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(10, 15, 35, 0.75);
+    backdrop-filter: blur(15px);
+    border-bottom: 1.5px solid rgba(0, 195, 255, 0.35);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+
+    box-shadow: 0 0 18px rgba(0, 180, 255, 0.3);
+}
+
+/* LOGO */
+.nav-left img {
+    transition: 0.35s;
+    border-radius: 16px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: 0 0 12px rgba(0, 195, 255, 0.4);
+}
+
+.nav-left img:hover {
+    transform: scale(1.07);
+    filter: drop-shadow(0 0 15px rgba(0, 195, 255, 0.9));
+}
+
+/* LINKS */
+.nav-links a,
+.dropbtn {
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    color: #e6e6e6;
+    transition: 0.25s;
+}
+
+.nav-links a:hover {
+    color: #00eaff;
+    text-shadow: 0 0 10px #00eaff;
+}
+
+.active {
+    color: #00eaff !important;
+    text-shadow: 0 0 10px #00eaff;
+}
+
+/* ===================== DROPDOWN ===================== */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    position: absolute;
+    background: rgba(10, 15, 35, 0.95);
+    backdrop-filter: blur(10px);
+    min-width: 160px;
+    display: none;
+    border-radius: 12px;
+    padding: 6px 0;
+    box-shadow: 0 0 12px rgba(0, 200, 255, 0.3);
+}
+
+.dropdown-content a {
+    padding: 10px 12px;
+    display: block;
+    /* color: white; */
+    text-decoration: none;
+    transition: 0.2s ease-in-out;
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 200, 255, 0.2);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ===================== MAIN CONTAINER ===================== */
 .container {
-    width: 95%;
-    margin: 30px auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    height: calc(100vh - 120px);
+
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    padding: 15px;
+
+    box-shadow: 0 0 20px rgba(0, 200, 255, 0.22);
+    overflow: hidden;
 }
 
+/* HEADER */
 .emp {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 28px;
-    font-weight: 700;
-    color: #333;
+    margin-bottom: 12px;
+    font-size: 26px;
+    text-shadow: 0 0 12px #00eaff;
 }
 
-/* ===============================
-   TABLE STYLES
-================================*/
+/* ===================== TABLE ===================== */
+.table-wrapper {
+    height: calc(100% - 70px);
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 14px;
     overflow: hidden;
 }
 
 thead {
-    background: hsl(210, 10%, 92%);
-    color: white;
+    background: rgba(0, 180, 255, 0.18);
+    backdrop-filter: blur(8px);
 }
 
 thead th {
     padding: 12px;
-    text-align: left;
     font-size: 14px;
+    letter-spacing: 0.5px;
+    color: #00eaff;
 }
 
-tbody tr:nth-child(even) {
-    background: #f2f7ff;
+tbody tr {
+    transition: 0.25s ease;
 }
 
 tbody tr:hover {
-    background: #e8f1ff;
+    background: rgba(255, 0, 200, 0.15);
+    transform: scale(1.01);
 }
 
-tbody td {
-    padding: 12px;
+td {
+    padding: 10px;
     font-size: 14px;
-    color: #333;
+    text-align: center;
 }
 
-img {
-    border-radius: 6px;
+/* ===================== PROFILE IMAGE ===================== */
+td img {
+    width: 70px;
+    height: 70px;
+    border-radius: 14px;
+    object-fit: cover;
+    box-shadow: 0 0 12px rgba(0, 195, 255, 0.4);
+    transition: 0.3s;
 }
 
-/* ===============================
-   ACTION BUTTONS
-================================*/
+td img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 18px rgba(255, 0, 200, 0.8);
+}
+
+/* ===================== BUTTONS ===================== */
 .edit-btn,
 .delete-btn,
 .idcords {
-    padding: 6px 12px;
+    padding: 6px 14px;
+    border-radius: 8px;
     text-decoration: none;
-    border-radius: 5px;
     color: white;
-    font-size: 13px;
-}
-
-.edit-btn {
-    background: #28a745;
-}
-
-.delete-btn {
-    background: #dc3545;
-}
-
-.idcords {
-    background: #007bff;
-}
-
-.edit-btn:hover { background: #218838; }
-.delete-btn:hover { background: #c82333; }
-.idcords:hover { background: #0069d9; }
-
-/* ===================================================
-   RESPONSIVE MEDIA QUERIES (Mobile / Tablet Friendly)
-===================================================*/
-
-/* ---- Tablet ---- */
-@media (max-width: 992px) {
-    table thead {
-        font-size: 13px;
-    }
-    tbody td {
-        font-size: 12px;
-    }
-    .emp {
-        font-size: 24px;
-    }
-}
-
-/* ---- Mobile ---- */
-@media (max-width: 768px) {
-
-    .container {
-        padding: 10px;
-    }
-
-    table thead {
-        display: none; /* Hide header for mobile */
-    }
-
-    table, tbody, tr, td {
-        display: block;
-        width: 100%;
-    }
-
-    tr {
-        margin-bottom: 15px;
-        background: #fff;
-        padding: 12px;
-        border-radius: 8px;
-        box-shadow: 0 1px 5px rgba(0,0,0,0.1);
-    }
-
-    td {
-        padding: 8px 0;
-        text-align: right;
-        position: relative;
-    }
-
-    td::before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        color: #007bff;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    img {
-        width: 60px;
-    }
-
-    .emp {
-        font-size: 20px;
-    }
-}
-
-
-/* ---------------------------------------------Edit---------------------------------------------------------- */
-/* -------------------- */
-/* FORM BOX BASE STYLES */
-/* -------------------- */
-
-.form-box {
-    width: 40%;
-    /* margin: 60px auto; */
-    padding: 25px 30px;
-
-    background: #ffffff;
-    border-radius: 12px;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-
-   
-    animation: fadeIn 0.4s ease-in-out;
-}
-
-.form-box h2 {
-    margin-bottom: 5px;
-    color: #333;
-}
-
-/* ------------------------- */
-/* TABLE FORM FIELD STYLING */
-/* ------------------------- */
-
-.form-box table {
-    width: 100%;
-}
-
-.form-box table tr {
-    height: 30px;
-}
-
-.form-box table th {
-    /* text-align: left; */
+    font-size: 12px;
     font-weight: 600;
-    color: #444;
-    padding: 8px 5px;
-    width: 100%;
+    transition: 0.25s ease-in-out;
 }
 
-.form-box table td {
-    padding: 8px 5px;
+/* Edit button */
+.edit-btn {
+    background: #00eaff90;
+}
+.edit-btn:hover {
+    background: #00eaff;
+    box-shadow: 0 0 10px #00eaff;
 }
 
-/* Input Boxes */
-.form-box input,
-.form-box select,
-.form-box textarea {
-    width: 100%;
-    padding: 8px 10px;
-
-    border: 1px solid #ccc;
-    border-radius: 6px;
-
-    outline: none;
-    font-size: 14px;
+/* Delete button */
+.delete-btn {
+    background: #ff006690;
+}
+.delete-btn:hover {
+    background: #ff0066;
+    box-shadow: 0 0 10px #ff0066;
 }
 
-.form-box input:focus,
-.form-box select:focus,
-.form-box textarea:focus {
-    border-color: #007bff;
+/* ID Card button */
+.idcords {
+    background: #8a00ff90;
 }
-
-/* ---------------- */
-/* SUBMIT BUTTON    */
-/* ---------------- */
-
-.form-box button {
-    margin-top: 20px;
-    width:100%;
-    padding: 10px;
-
-    background: #007bff;
-    border: none;
-    border-radius: 6px;
-
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.form-box button:hover {
-    background: #0056b3;
-}
-
-/* Simple fade animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-/* --------------------------- */
-/* RESPONSIVE MEDIA QUERIES    */
-/* --------------------------- */
-
-/* Tablets and small screens */
-@media (max-width: 768px) {
-    .form-box {
-        width: 85%;
-        margin-top: 40px;
-    }
-
-    .form-box table th {
-        width: 40%;
-    }
-}
-
-/* Mobile phones */
-@media (max-width: 480px) {
-    .form-box {
-        width: 92%;
-        padding: 20px;
-    }
-
-    .form-box h2 {
-        font-size: 20px;
-    }
-
-    .form-box table th {
-        display: block;
-        width: 100%;
-        margin-bottom: 4px;
-    }
-
-    .form-box table td {
-        display: block;
-        width: 100%;
-        margin-bottom: 10px;
-    }
-
-    .form-box table tr {
-        display: block;
-        margin-bottom: 12px;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-    }
-
-    /* Make input fields full width */
-    .form-box input,
-    .form-box select,
-    .form-box textarea {
-        width: 100%;
-    }
-}
-
-
-/* --------------------------------------------crateemployeeform---------------------------------------------------------------- */
-/* ===========================
-   GLOBAL STYLES
-=========================== */
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #210dd9;
-    margin: 0;
-    padding: 0;
-}
-
-/* ===========================
-   FORM CONTAINER BOX
-=========================== */
-.form-container_box {
-    width: 30%;
-    margin: 30px auto;
-    background: #fff;
-    padding: 25px 35px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.form-container_box h2 {
-    text-align: center;
-    margin-top: 100px;
-    color: #333;
-}
-
-/* ===========================
-   FORM FIELDS
-=========================== */
-form p {
-    margin-top: 15px;
-}
-
-form input,
-form select,
-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
-    transition: 0.3s ease;
-}
-
-form input:focus,
-form select:focus,
-form textarea:focus {
-    border-color: #4e73df;
-    outline: none;
-    box-shadow: 0 0 5px rgba(78, 115, 223, 0.3);
-}
-
-/* ===========================
-   SUBMIT BUTTON
-=========================== */
-button[type="submit"] {
-    width: 100%;
-    padding: 12px;
-    background: #4e73df;
-    border: none;
-    color: #fff;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background: #2e59d9;
-}
-
-/* ===========================
-   MEDIA QUERIES
-=========================== */
-
-/* For tablets and medium screens */
-@media (max-width: 992px) {
-    .form-container_box {
-        width: 60%;
-    }
-}
-
-/* For mobile devices */
-@media (max-width: 768px) {
-    .form-container_box {
-        width: 90%;
-        padding: 20px;
-    }
-
-    button[type="submit"] {
-        font-size: 15px;
-        padding: 10px;
-    }
-}
-
-/* Very small devices */
-@media (max-width: 480px) {
-    .form-container_box {
-        width: 95%;
-    }
+.idcords:hover {
+    background: #8a00ff;
+    box-shadow: 0 0 10px #8a00ff;
 }
 
 
 
-/* ----------------------------------------------------id_card_data---------------------------------------------------------------------- */
+/* --------------------------------------------employee_edit---------------------------------------------------------------- */
 
-/* <!-- ID CARD INTERNAL CSS --> */
 
+        /* Full-page layout */
         body {
+            margin: 10px;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background: #0909e6;
-            margin: 0;
-            padding: 20px;
+           background: linear-gradient(135deg, #0a0f24, #101a40);
+            height: 100vh;
+            overflow: hidden; /* No scroll */
         }
 
-        /* MAIN CARD WRAPPER */
-        .idcard-box {
+        /* Adjust for fixed navbar */
+        .page-container {
+            /* margin-top: 70px; 
+            height: calc(100vh - 70px); */
             display: flex;
-            gap: 40px;
             justify-content: center;
-            flex-wrap: wrap;
+            align-items: center;
+            
         }
 
-        /* FRONT CARD DESIGN */
-        .id-card {
-            width: 280px;
-            height: 380px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(180deg, #0a1b4f, #012b79);
-            color: white;
+        /* Form Card */
+        .edit-form-box {
+            width: 420px;
+            background: linear-gradient(135deg, #0a0f24, #101a40);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
 
-        /* VERTICAL TEXT */
-        .vertical-text {
-            position: absolute;
-            left: -65px;
-            top: 160px;
-            transform: rotate(-90deg);
-            font-size: 60px;
-            opacity: 0.15;
-            font-weight: bold;
-        }
-
-        /* PROFILE SECTION */
-        .profile-section {
-            text-align: center;
-            padding-top: 25px;
-        }
-
-        .profile-section img {
-            width: 130px;
-            height: 130px;
-            border-radius: 20px;
-            object-fit: cover;
-            border: 4px solid #ffffff;
-        }
-
-        .emp-info {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .emp-info h3 {
-            margin: 8px 0 4px;
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        .emp-info p {
-            margin: 3px 0;
-            font-size: 14px;
-            opacity: 0.85;
-        }
-
-        /* BARCODE */
-        .barcode {
-            width: 90%;
-            height: 50px;
-            background: repeating-linear-gradient(90deg,
-                    #fff 0px,
-                    #fff 2px,
-                    #000 4px,
-                    #000 6px);
-            margin: 20px auto 0;
-            border-radius: 6px;
-        }
-
-        /* BACK CARD */
-        .id-card-back {
-            width: 280px;
-            height: 380px;
-            border-radius: 20px;
-            overflow: hidden;
-            background: linear-gradient(180deg, #012b79, #00091a);
-            color: white;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-            padding: 25px;
-        }
-
-        .back-logo {
-            font-size: 25px;
-            font-weight: bold;
+        .edit-title {
             text-align: center;
             margin-bottom: 20px;
+            color: #1a237e;
+            font-size: 24px;
+            font-weight: bold;
         }
 
-        .terms {
-            font-size: 14px;
-            line-height: 1.5;
-            opacity: 0.85;
-            text-align: center;
-            margin-bottom: 40px;
+        .edit-form-box form {
+            width: 100%;
         }
 
-        .contact-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 25px;
+        .edit-form-box button {
+            background: #1a237e;
+            /* color: white; */
+            width: 100%;
+            padding: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        .contact-box p {
-            margin: 6px 0;
-            font-size: 14px;
+        .edit-form-box button:hover {
+            background: #000051;
         }
+
+        /* Styling Django Form Labels & Inputs */
+        .edit-form-box p {
+            margin-bottom: 15px;
+        }
+
+        .edit-form-box label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .edit-form-box input,
+        .edit-form-box select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #999;
+        }
+  

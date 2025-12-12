@@ -1,22 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-      {% load static %}
+{% load static %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultra Premium Login</title>
+
+<style>
+
+    /* ---------------- GLOBAL ---------------- */
+    body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: radial-gradient(circle at top, #14001f, #000000 70%);
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+
+    /* ---------------- PARTICLES ---------------- */
+    .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .particle {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: rgba(255,255,255,0.7);
+        border-radius: 50%;
+        animation: drift 10s infinite linear;
+    }
+
+    @keyframes drift {
+        0% { transform: translateY(0px) scale(1); opacity: 1; }
+        100% { transform: translateY(-900px) scale(0.3); opacity: 0; }
+    }
+
+    .particle:nth-child(3n) { animation-duration: 7s; background: #00eaff; }
+    .particle:nth-child(4n) { animation-duration: 9s; background: #ff3ad2; }
+    .particle:nth-child(5n) { animation-duration: 13s; background: #ffaa00; }
+
+    /* ---------------- AURORA GRADIENT ---------------- */
+    .aurora {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: conic-gradient(from 180deg, #ff00c8, #00e5ff, #a200ff, #ff00c8);
+        filter: blur(160px);
+        opacity: 0.35;
+        animation: rotateAura 22s infinite linear;
+    }
+
+    @keyframes rotateAura {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* ---------------- LOGIN BOX ---------------- */
+    .login-box {
+        position: relative;
+        width: 380px;
+        padding: 45px;
+        border-radius: 25px;
+        background: rgba(255,255,255,0.08);
+        backdrop-filter: blur(18px);
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow:
+            0 0 40px rgba(0,255,255,0.4),
+            0 0 80px rgba(255,0,200,0.3);
+        animation: cardIn 1.2s ease forwards;
+        transform-style: preserve-3d;
+    }
+
+    @keyframes cardIn {
+        0% { transform: translateY(40px) scale(0.9); opacity: 0; }
+        100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .login-box:hover {
+        transform: translateY(-5px) scale(1.02);
+        transition: 0.4s;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 35px;
+        margin-bottom: 5px;
+        background: linear-gradient(90deg, #ff00c8, #00eaff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #dcdcdc;
+        margin-bottom: 30px;
+        letter-spacing: 1px;
+    }
+
+    /* ---------------- LABEL STYLE (NEW) ---------------- */
+
+    label {
+        font-size: 14px;
+        letter-spacing: 1px;
+        display: block;
+        margin-bottom: 5px;
+        margin-top: 10px;
+        color: #d8d8d8;
+        text-transform: uppercase;
+        font-weight: 600;
+        transition: 0.3s;
+        transform: translateX(0);
+        opacity: 0.8;
+    }
+
+    /* Neon glow on hover */
+    .input-group:hover + label,
+    label:hover {
+        color: #00eaff;
+        text-shadow: 0 0 10px #00eaff;
+        transform: translateX(4px);
+        opacity: 1;
+        
+    }
+
+    /* Hologram animation */
+    @keyframes labelGlow {
+        0% { text-shadow: 0 0 6px #ff00c8; }
+        50% { text-shadow: 0 0 12px #00eaff; }
+        100% { text-shadow: 0 0 6px #ff00c8; }
+    }
+
+    label.animate {
+        animation: labelGlow 2.5s infinite;
+    }
+
+    /* ---------------- INPUT GROUP ---------------- */
+    .input-group {
+        position: relative;
+        margin: 5px 0 25px 0;
+        
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 17px;
+        color: white;
+        border-bottom: 2px solid #666;
+        transition: 0.4s;
+        border-radius: 15px;
+
+    }
+
+    .input-group input:focus {
+        border-bottom-color: #00eaff;
+        box-shadow: 0 0 12px #00eaff;
+    }
+
+    /* ---------------- LOGIN BUTTON ---------------- */
+    .login-btn {
+        width: 100%;
+        padding: 14px;
+        margin-top: 15px;
+        border-radius: 35px;
+        border: none;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        color: white;
+        background: linear-gradient(135deg, #ff00c8, #00eaff);
+        box-shadow:
+            0 0 20px rgba(0,234,255,0.5),
+            0 0 40px rgba(255,0,200,0.4);
+        transition: 0.4s;
+    }
+
+    .login-btn:hover {
+        transform: scale(1.06);
+        box-shadow:
+            0 0 30px rgba(0,234,255,0.7),
+            0 0 60px rgba(255,0,200,0.6);
+    }
+
+    /* ---------------- SIGNUP TEXT ---------------- */
+    .signup {
+        text-align: center;
+        margin-top: 25px;
+        color: #d1d1d1;
+    }
+
+    .signup a {
+        color: #00eaff;
+        text-decoration: none;
+        font-weight: bold;
+        animation: glitch 2s infinite;
+    }
+
+    /* Small glitch animation */
+    @keyframes glitch {
+        0% { text-shadow: 0 0 4px #00eaff; }
+        50% { text-shadow: 0 0 12px #ff00c8; }
+        100% { text-shadow: 0 0 4px #00eaff; }
+    }
+
+</style>
 </head>
+
 <body>
-    
+
+    <!-- AURORA BACKGROUND -->
+    <div class="aurora"></div>
+
+    <!-- PARTICLES -->
+    <div class="particles">
+        <div class="particle" style="top:80%; left:20%;"></div>
+        <div class="particle" style="top:90%; left:60%;"></div>
+        <div class="particle" style="top:70%; left:40%;"></div>
+        <div class="particle" style="top:95%; left:80%;"></div>
+        <div class="particle" style="top:85%; left:30%;"></div>
+        <div class="particle" style="top:88%; left:50%;"></div>
+        <div class="particle" style="top:92%; left:70%;"></div>
+        <div class="particle" style="top:78%; left:10%;"></div>
+        <div class="particle" style="top:85%; left:90%;"></div>
+    </div>
+
+    <!-- LOGIN BOX -->
     <form action="" method="post" class="login-box">
         {% csrf_token %}
-        <h2>Login</h2>
+        <h2 class="title">Welcome Back</h2>
+        <p class="subtitle">Access your dashboard</p>
 
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="text" name="password" placeholder="Password" required>
+        <label class="animate">Username</label>
+        <div class="input-group">
+            <input type="text" name="username" required>
+        </div>
 
-        <button type="submit">Login</button>
+        <label class="animate">Password</label>
+        <div class="input-group">
+            <input type="password" name="password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+
+      
     </form>
 
 </body>

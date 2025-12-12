@@ -55,12 +55,22 @@ class Idcord(models.Model):
 class Emp_Attendance(models.Model):
     employee=models.ForeignKey(Employees,on_delete=models.CASCADE)
     date=models.DateField()
-    status=models.CharField(choices=[ ('Present','Present'),('Absent','Absent'),('Leave','Leave'),])
+    status=models.CharField(choices=[ ('Present','Present'),('Absent','Absent'),('Leave','Leave'),],null=True,blank=True)
     check_in=models.TimeField(null=True,blank=True)
     check_out=models.TimeField(null=True,blank=True)
-    total_hours=models.DurationField(default=0)
+    total_hours=models.FloatField(default=0)
 
     def __str__(self):
         return f"{self.employee.name} - {self.status}"   
+    
+class emp_Salary(models.Model):
+    employee=models.ForeignKey(Employees,on_delete=models.CASCADE)
+    month=models.CharField()
+    year=models.IntegerField()
+    present_days=models.IntegerField()
+    salary=models.FloatField()
+    
+    def __str__(self):
+        return f"{self.employee.name} {self.month}"
 
     

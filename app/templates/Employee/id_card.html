@@ -7,55 +7,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ID Cards</title>
 
+    <!-- Navbar External CSS -->
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
+
+    <!-- ================== YOUR STYLE ADDED HERE ================== -->
     <style>
+
         body {
             font-family: Arial, sans-serif;
-            background: #0909e6;
-            margin: 40px;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
         }
 
+        /* Scrollable Content Box */
+        .main-container {
+            margin-top: 80px;
+            padding: 15px;
+            height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+
+        /* WRAPPER */
         .idcard-box {
             display: flex;
             gap: 40px;
             justify-content: center;
             flex-wrap: wrap;
-        }
-        .logo{
-             width: 70px;
-            height: 70px;
-            border-radius: 50%;      /* Makes it circle */
-            object-fit: cover;       /* Fits perfectly inside */
-            border: 3px solid #fff;
-
+            margin-top: 120px;   /* space for navbar */
         }
 
-        /* FRONT CARD */
-        .id-card-card {
+        /* ---------- FRONT CARD ---------- */
+        .id-card {
             width: 280px;
-            height: 380px;
+            height: 390px;
             border-radius: 20px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
             background: linear-gradient(180deg, #0a1b4f, #012b79);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
             color: white;
-            padding: 20px;
         }
 
         .vertical-text {
             position: absolute;
-            left: -65px;
-            top: 160px;
+            left: -60px;
+            top: 150px;
             transform: rotate(-90deg);
             font-size: 60px;
-            opacity: 0.15;
+            opacity: 0.12;
             font-weight: bold;
         }
 
         .profile-section {
             text-align: center;
-            margin-top: 10px;
+            padding-top: 15px;
         }
 
         .profile-section img {
@@ -63,7 +68,7 @@
             height: 130px;
             border-radius: 20px;
             object-fit: cover;
-            border: 4px solid #ffffff;
+            border: 4px solid white;
         }
 
         .emp-info {
@@ -74,7 +79,6 @@
         .emp-info h3 {
             margin: 8px 0 4px;
             font-size: 20px;
-            font-weight: bold;
         }
 
         .emp-info p {
@@ -86,25 +90,20 @@
         .barcode {
             width: 90%;
             height: 50px;
-            background: repeating-linear-gradient(90deg,
-                    #fff 0px,
-                    #fff 2px,
-                    #000 4px,
-                    #000 6px);
+            background: repeating-linear-gradient(90deg, #fff 0px, #fff 2px, #000 4px, #000 6px);
             margin: 20px auto;
             border-radius: 6px;
         }
 
-        /* BACK CARD */
+        /* ---------- BACK CARD ---------- */
         .id-card-back {
-            width: 280px;
-            height: 380px;
+            width: 240px;
+            height: 340px;
             border-radius: 20px;
-            overflow: hidden;
+            padding: 25px;
             background: linear-gradient(180deg, #012b79, #00091a);
             color: white;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-            padding: 25px;
         }
 
         .back-logo {
@@ -115,40 +114,46 @@
         }
 
         .terms {
+            text-align: center;
             font-size: 14px;
             line-height: 1.5;
             opacity: 0.85;
-            text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .contact-box {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 15px;
             border-radius: 15px;
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
         .contact-box p {
             margin: 6px 0;
             font-size: 14px;
         }
+
     </style>
+
 </head>
 
 <body>
 
-
 <div class="idcard-box">
-        {% include "Employee/employee_navbar.html" %}
+
+    {% include "Employee/employee_navbar.html" %}
 
     {% if id_details %}
+    
         {% for i in id_details %}
 
-        <!-- FRONT CARD -->
-        <div class="id-card-card">
-             <img src="{% static 'image/Logo (2).png' %}" alt="logo" width="100" height="60px" class="logo">
+        <!-- ======== FRONT SIDE ======== -->
+        <div class="id-card">
+            
+            <img src="{% static 'image/Logo (2).png' %}" 
+                 alt="logo" width="100" height="60" class="logo">
+
             <div class="vertical-text">Employee</div>
 
             <div class="profile-section">
@@ -164,11 +169,14 @@
             <div class="barcode"></div>
         </div>
 
-        <!-- BACK CARD -->
+        <!-- ======== BACK SIDE ======== -->
         <div class="id-card-back">
+
             <div class="back-logo">botnet</div>
 
-            <h3 style="text-align:center;margin-bottom:10px;">Terms & Conditions</h3>
+            <h3 style="text-align:center;margin-bottom:10px;">
+                Terms & Conditions
+            </h3>
 
             <p class="terms">
                 This ID card must be carried inside office premises.
@@ -182,9 +190,11 @@
                 <p>{{ i.address }}</p>
                 <p>Emergency No: {{ i.Emergency_contact_No }}</p>
             </div>
+
         </div>
 
         {% endfor %}
+    
     {% else %}
         <h1>No ID card generated</h1>
     {% endif %}
@@ -193,4 +203,3 @@
 
 </body>
 </html>
-

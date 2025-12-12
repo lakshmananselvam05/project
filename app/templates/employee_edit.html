@@ -1,26 +1,38 @@
 <!DOCTYPE html>
-  {% load static %}
+{% load static %}
 <html lang="en">
+
 <head>
-  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Edit</title>
 
-    <!-- Static CSS File -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+   
+
 </head>
+
 <body>
 
-    <div class="form-box">
-        <h2>Employee Edit</h2>
+    {% include "hr_navbar.html" %}
 
-        <form action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_table }}
-            <button type="submit">Update</button>
-        </form>
+    <!-- Main Page Wrapper -->
+    <div class="page-container">
+
+        <div class="edit-form-box">
+            <h2 class="edit-title">Edit Employee</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                <button type="submit">Update Employee</button>
+            </form>
+        </div>
+
     </div>
 
 </body>
 </html>
+

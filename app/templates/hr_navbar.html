@@ -1,8 +1,14 @@
 {% load static %}
-<div class="navbar">
-    <div class="nav-left">
-        <img src="{% static 'image/Logo (2).png' %}" alt="logo" width="100" height="60px"></div>
+<!-- ================= NAVBAR HTML ================= -->
 
+<div class="navbar">
+
+    <!-- Logo -->
+    <div class="nav-left">
+        <img src="{% static 'image/Logo (2).png' %}" alt="logo" width="95" height="55">
+    </div>
+
+    <!-- Links -->
     <div class="nav-links">
 
         <a href="{% url 'hr_dashboard' %}"
@@ -10,9 +16,7 @@
             Dashboard
         </a>
 
-        <!-- Employee Dropdown -->
-        <div class="dropdown 
-            {% if request.resolver_match.url_name in 'employee create' %}active{% endif %}">
+        <div class="dropdown">
             <span class="dropbtn">Employee ▾</span>
 
             <div class="dropdown-content">
@@ -34,6 +38,7 @@
             class="{% if request.resolver_match.url_name == 'hr_attendance_panel' %}active{% endif %}">
             Attendance
         </a>
+
         <a href="{% url 'employee-login' %}"
             class="{% if request.resolver_match.url_name == 'employee-login' %}active{% endif %}">
             Logout

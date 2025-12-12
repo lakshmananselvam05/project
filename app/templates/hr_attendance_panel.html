@@ -3,18 +3,16 @@
 <html>
 <head>
     <title>HR Attendance Panel</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             padding: 20px;
         }
 
         .container {
-            width: 90%;
-            margin: auto;
+            width: 100%;
+            overflow-y: scroll;
         }
 
         h2 {
@@ -22,70 +20,67 @@
             margin-bottom: 20px;
         }
 
+        /* FILTER SECTION */
         .filter-box {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            padding: 10px;
+            border: 1px solid #ccc;
             margin-bottom: 20px;
+            width: 88%;
+            height: 40vh;
+            border-radius: 5px;
+            align-items: center;
+            margin-left: 80px;
+            
         }
 
         .filter-box form {
             display: flex;
-            gap: 20px;
             flex-wrap: wrap;
+            gap: 15px;
         }
 
         select, input[type="month"] {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #bbb;
-            width: 200px;
+            padding: 8px;
+            border: 1px solid #aaa;
         }
 
-        .btn {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 6px;
+        button {
+            padding: 8px 15px;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        .btn:hover {
-            background: #1f78b4;
-        }
-
+        /* TABLE STYLE */
         table {
-            width: 100%;
-            background: white;
+            width: 90%;
             border-collapse: collapse;
-            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+             align-items: center;
+            margin-left: 80px;
         }
 
         th, td {
-            padding: 12px;
+            padding: 10px;
+            border: 1px solid #ccc;
             text-align: center;
-            border-bottom: 1px solid #ddd;
         }
 
         th {
-            background: #3498db;
-            color: white;
+            background: #75025e7b;
         }
     </style>
 </head>
+
 <body>
-    {% include "hr_navbar.html" %}
+
+{% include "hr_navbar.html" %}
 
 <div class="container">
 
     <h2>HR – Employee Attendance Report</h2>
 
-    <!-- FILTERS -->
+    <!-- FILTER SECTION -->
     <div class="filter-box">
         <form method="get">
+
             <input type="month" name="month" value="{{ selected_month }}">
 
             <select name="department">
@@ -106,11 +101,11 @@
                 {% endfor %}
             </select>
 
-            <button class="btn" type="submit">Apply Filter</button>
+            <button type="submit">Apply Filter</button>
         </form>
     </div>
 
-    <!-- ATTENDANCE TABLE -->
+    <!-- TABLE -->
     <table>
         <tr>
             <th>Date</th>
@@ -120,6 +115,7 @@
             <th>Check In</th>
             <th>Check Out</th>
             <th>Total Hours</th>
+            <th>Generated Salary</th>
         </tr>
 
         {% for att in attendance %}
@@ -131,10 +127,11 @@
             <td>{{ att.check_in }}</td>
             <td>{{ att.check_out }}</td>
             <td>{{ att.total_hours }}</td>
+            <td></td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="7">No attendance found for selected filters</td>
+            <td colspan="8">No attendance found for selected filters</td>
         </tr>
         {% endfor %}
     </table>
@@ -143,3 +140,4 @@
 
 </body>
 </html>
+

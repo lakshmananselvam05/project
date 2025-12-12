@@ -157,12 +157,9 @@ def employee_login(request):
 def dashborad_view(request):
     return render(request,'Employee/employee_dashboard.html')
 
+
+
 from datetime import datetime
-from datetime import datetime,timedelta
-from django.shortcuts import render, redirect
-from .models import Employees, Emp_Attendance
-
-
 from datetime import datetime, timedelta
 from django.db.models.functions import ExtractMonth, ExtractYear
 from django.shortcuts import render, redirect
@@ -200,7 +197,7 @@ def employee_attendance_view(request):
             check_in_dt = datetime.combine(today_date, attendance.check_in)
             check_out_dt = datetime.combine(today_date, now.time())
             worked_seconds = (check_out_dt - check_in_dt).total_seconds()
-            attendance.total_hours =(timedelta(seconds=worked_seconds))
+            attendance.total_hours = round((check_out_dt - check_in_dt).total_seconds() / 3600, 2)
 
             attendance.save()
 
@@ -248,6 +245,8 @@ def employee_attendance_view(request):
     })
 
 
+
+
 def id_card_view(request):
     user = request.user
 
@@ -261,6 +260,10 @@ def id_card_view(request):
 
     return render(request, "Employee/id_card.html", {"id_details": id_details})
 
+
+def employee_salary_view(request):
+    data=emp_Salary.objects.all()
+    return render(request,employee_salary.html,{'data':data})
 
 
 

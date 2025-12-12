@@ -18,7 +18,9 @@ urlpatterns=[
 #-----------------------------employee details---------------------------------------------------------------------------------
     path('emp_dashboard/',dashborad_view,name='emp_dashboard'),
     path("id_card/",id_card_view,name="id-details"),
-    path("emp-attendance/",employee_attendance_view,name="emp-attendance")
+    path("emp-attendance/",employee_attendance_view,name="emp-attendance"),
+    path("emp-salary/",employee_salary_view,name="emp-salary"),
+    
 
 
 ]

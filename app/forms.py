@@ -36,3 +36,9 @@ class AttendanceForm(forms.ModelForm):
     class Meta:
         model = Emp_Attendance
         fields = '__all__'
+
+
+class SalaryForm(forms.ModelForm):
+    class Meta:
+        model = emp_Salary
+        fields = '__all__'

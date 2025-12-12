@@ -6,19 +6,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees List</title>
+     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
 
 <body>
-    {% include "hr_navbar.html" %}
-  
+     {% include "hr_navbar.html" %}
 
-        <div class="container">
-            <h1 class="emp">Employees List</h1>
 
-            <table border="1" cellpadding="10" cellspacing="0">
+       
+    <!-- CONTENT -->
+    <div class="container">
+        <h1 class="emp">Employees List</h1>
+
+        <div class="table-wrapper">
+
+            <table>
                 <thead>
                     <tr>
                         <th>Photo</th>
@@ -31,17 +35,15 @@
                         <th>Salary</th>
                         <th>User</th>
                         <th>Actions</th>
-                       
                     </tr>
                 </thead>
 
                 <tbody>
                     {% for i in emp %}
                     <tr>
-                        <td><img src="{{i.photo.url}}" width="80"></td>
+                        <td><img src="{{ i.photo.url }}"></td>
                         <td>{{ i.name }}</td>
                         <td>{{ i.emp_id }}</td>
-                        
                         <td>{{ i.Gender }}</td>
                         <td>{{ i.phone }}</td>
                         <td>{{ i.depertment }}</td>
@@ -50,18 +52,18 @@
                         <td>{{ i.user }}</td>
 
                         <td>
-                            <a class="edit-btn" href="{% url 'employee_edit' i.id %}">Edit</a> |
+                            <a class="edit-btn" href="{% url 'employee_edit' i.id %}">Edit</a>
                             <a class="delete-btn" href="{% url 'employee_delete' i.id %}">Delete</a>
-                            <a class="idcords" href="{% url 'create-id' i.id %}">id</a>
+                            <a class="idcords" href="{% url 'create-id' i.id %}">ID</a>
                         </td>
-                       
                     </tr>
-                 
                     {% endfor %}
                 </tbody>
+
             </table>
 
         </div>
+
     </div>
 
 </body>
