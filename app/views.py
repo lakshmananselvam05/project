@@ -39,15 +39,14 @@ def HR_dashborad_view(request):
 
     # Attendance counts
     attendance = Emp_Attendance.objects.filter(date=datetime.now().date())
-    print( attendance )
+   
     attendance_count = attendance.count()
-    print(attendance_count )
+   
     date = datetime.now().date()
     present_count = attendance.filter(status='present',date=date).count()
 
-    print(present_count)
     absent_count = attendance.filter(status='absent',date=date).count()
-    print(absent_count)
+
     context = {
         'emp': emp,
         'it': it,
