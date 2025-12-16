@@ -121,11 +121,12 @@
                 <input type="month" name="month" value="{{ selected_month }}">
                 <button type="submit">Generate Salary</button>
             </form>
-           
+
+
         </div>
         <div class="filter-box">
-            
-             <form method="post" action="{% url 'emp-salary' %}">
+
+            <form method="post" action="{% url 'emp-salary' %}">
                 {% csrf_token %}
                 <input type="month" name="month" value="{{ selected_month }}">
                 <button type="submit">View Salary</button>
@@ -145,11 +146,11 @@
 
                 {% for i in data %}
                 <tr>
-                    <td>{{ i.employee }}</td>
+                    <td>{{ i.employee.name }}</td>
                     <td>{{ i.month }}</td>
                     <td>{{ i.year }}</td>
                     <td>{{ i.present_days }}</td>
-                    <td>{{ i.salary }}</td>
+                    <td>₹ {{ i.salary }}</td>
                 </tr>
                 {% endfor %}
 
@@ -161,4 +162,3 @@
 </body>
 
 </html>
-

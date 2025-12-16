@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>HR Attendance Panel</title>
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-        }
-
-        .container {
-            width: 100%;
-            overflow-y: scroll;
+            /* background: #f4f6fc; */
         }
 
         h2 {
@@ -20,51 +19,85 @@
             margin-bottom: 20px;
         }
 
+        /* MAIN CONTAINER */
+        .container {
+            width: 100%;
+            overflow-y: scroll;
+        }
+
         /* FILTER SECTION */
         .filter-box {
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ccc;
-            margin-bottom: 20px;
-            width: 88%;
-            height: 40vh;
-            border-radius: 5px;
-            align-items: center;
-            margin-left: 80px;
+            margin: 0 auto 20px;
+            width: 90%;
+            border-radius: 6px;
+            /* background: #fff; */
         }
 
         .filter-box form {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
+            align-items: center;
+            justify-content: center;
         }
 
-        select, input[type="month"] {
+        select,
+        input[type="month"] {
             padding: 8px;
             border: 1px solid #aaa;
+            border-radius: 4px;
+            min-width: 160px;
         }
 
         button {
-            padding: 8px 15px;
+            padding: 8px 16px;
             cursor: pointer;
+            background: #75025e;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
         }
 
-        /* TABLE STYLE */
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* TABLE */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
         table {
-            width: 90%;
+            width: 95%;
             border-collapse: collapse;
-             align-items: center;
-            margin-left: 80px;
+            margin: 0 auto;
+            /* background: #fff; */
         }
-       
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             border: 1px solid #ccc;
             text-align: center;
+            white-space: nowrap;
         }
 
         th {
             background: #75025e7b;
+            font-weight: bold;
+        }
+
+        a {
+            color: lab(94.68% 2.89 -1.71);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -80,7 +113,6 @@
     <!-- FILTER SECTION -->
     <div class="filter-box">
         <form method="get">
-
             <input type="month" name="month" value="{{ selected_month }}">
 
             <select name="department">
@@ -95,7 +127,8 @@
             <select name="employee">
                 <option value="">All Employees</option>
                 {% for emp in employees %}
-                    <option value="{{ emp.id }}" {% if selected_employee == emp.id|stringformat:"s" %}selected{% endif %}>
+                    <option value="{{ emp.id }}"
+                        {% if selected_employee == emp.id|stringformat:"s" %}selected{% endif %}>
                         {{ emp.name }} - {{ emp.emp_id }}
                     </option>
                 {% endfor %}
@@ -106,37 +139,41 @@
     </div>
 
     <!-- TABLE -->
-    <table>
-        <tr>
-            <th>Date</th>
-            <th>Employee</th>
-            <th>Department</th>
-            <th>Status</th>
-            <th>Check In</th>
-            <th>Check Out</th>
-            <th>Total Hours</th>
-            <th>Generated Salary</th>
-        </tr>
+    <div class="table-container">
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Total Hours</th>
+                <th>Generated Salary</th>
+            </tr>
 
-        {% for att in attendance %}
-        <tr>
-            <td>{{ att.date }}</td>
-            <td>{{ att.employee.name }} ({{ att.employee.emp_id }})</td>
-            <td>{{ att.employee.depertment }}</td>
-            <td>{{ att.status }}</td>
-            <td>{{ att.check_in }}</td>
-            <td>{{ att.check_out }}</td>
-            <td>{{ att.total_hours }}</td>
-            <td>
-                <a href="{% url 'emp-salary-slip' att.employee.id %}">View Salary</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="8">No attendance found for selected filters</td>
-        </tr>
-        {% endfor %}
-    </table>
+            {% for att in attendance %}
+            <tr>
+                <td>{{ att.date }}</td>
+                <td>{{ att.employee.name }} ({{ att.employee.emp_id }})</td>
+               <td>{{ att.employee.depertment }}</td>
+                <td>{{ att.status }}</td>
+                <td>{{ att.check_in }}</td>
+                <td>{{ att.check_out }}</td>
+                <td>{{ att.total_hours }}</td>
+                <td>
+                    <a href="{% url 'emp-salary-slip' att.employee.id att.date %}">
+                        View Salary
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">No attendance found for selected filters</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
 </div>
 

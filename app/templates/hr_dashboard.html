@@ -1,23 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payroll System</title>
+    <title>Payroll System - HR Dashboard</title>
 
-    <!-- CSS File -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        .dashboard-container {
+            min-height: 40vh;
+            padding: 40px;
+            margin-top: 90px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .dashboard-card {
+            padding: 30px 20px;
+            border-radius: 14px;
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .dashboard-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-card h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-count {
+            font-size: 46px;
+            font-weight: bold;
+        }
+
+        /* Colors */
+        .total { background: linear-gradient(135deg, #4e73df, #224abe); }
+        .it { background: linear-gradient(135deg, #1cc88a, #13855c); }
+        .finance { background: linear-gradient(135deg, #f6c23e, #dda20a); }
+        .marketing { background: linear-gradient(135deg, #e74a3b, #be2617); }
+        .sales { background: linear-gradient(135deg, #36b9cc, #258391); }
+        .present { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .absent { background: linear-gradient(135deg, #dc3545, #a71d2a); }
+    </style>
 </head>
 
 <body>
-   
- {% include "hr_navbar.html" %}
 
+{% include "hr_navbar.html" %}
 
+<div class="dashboard-container">
+
+    <div class="dashboard-card total">
+        <i class="fas fa-users dashboard-icon"></i>
+        <h3>Total Employees</h3>
+        <div class="dashboard-count">{{ emp }}</div>
+    </div>
+
+    <div class="dashboard-card it">
+        <i class="fas fa-laptop-code dashboard-icon"></i>
+        <h3>IT Department</h3>
+        <div class="dashboard-count">{{ it }}</div>
+    </div>
+
+    <div class="dashboard-card finance">
+        <i class="fas fa-coins dashboard-icon"></i>
+        <h3>Finance Department</h3>
+        <div class="dashboard-count">{{ finance }}</div>
+    </div>
+
+    <div class="dashboard-card marketing">
+        <i class="fas fa-bullhorn dashboard-icon"></i>
+        <h3>Marketing Department</h3>
+        <div class="dashboard-count">{{ marketing }}</div>
+    </div>
+
+    <div class="dashboard-card sales">
+        <i class="fas fa-chart-line dashboard-icon"></i>
+        <h3>Sales Department</h3>
+        <div class="dashboard-count">{{ sales }}</div>
+    </div>
+
+    <div class="dashboard-card total">
+        <i class="fas fa-calendar-check dashboard-icon"></i>
+        <h3>Total Attendance</h3>
+        <div class="dashboard-count">{{ attendance_count }}</div>
+    </div>
+
+    <div class="dashboard-card present">
+        <i class="fas fa-user-check dashboard-icon"></i>
+        <h3>Present</h3>
+        <div class="dashboard-count">{{ present_count }}</div>
+    </div>
+
+    <div class="dashboard-card absent">
+        <i class="fas fa-user-times dashboard-icon"></i>
+        <h3>Absent</h3>
+        <div class="dashboard-count">{{ absent_count }}</div>
+    </div>
     
+ 
+</div>
 
 </body>
-
 </html>
+

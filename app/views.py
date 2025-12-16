@@ -6,6 +6,7 @@ from .forms import CustomSignupForm,EmployeeForm
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
+from django.db.models import F, Q ,Count,Sum,Avg, Max, Min
 # Create your views here.
 def signup_view(request):
     form = CustomSignupForm()
@@ -25,9 +26,42 @@ def signup_view(request):
 
 
 
-
 def HR_dashborad_view(request):
-    return render(request,'hr_dashboard.html')
+
+    # Employee counts
+    emp = Employees.objects.count()
+    it = Employees.objects.filter(depertment='IT').count()
+    finance = Employees.objects.filter(depertment='Finance').count()
+    marketing = Employees.objects.filter(depertment='Marketing').count()
+    sales = Employees.objects.filter(depertment='Sales').count()
+
+    
+
+    # Attendance counts
+    attendance = Emp_Attendance.objects.filter(date=datetime.now().date())
+    print( attendance )
+    attendance_count = attendance.count()
+    print(attendance_count )
+    date = datetime.now().date()
+    present_count = attendance.filter(status='present',date=date).count()
+
+    print(present_count)
+    absent_count = attendance.filter(status='absent',date=date).count()
+    print(absent_count)
+    context = {
+        'emp': emp,
+        'it': it,
+        'finance': finance,
+        'marketing': marketing,
+        'sales': sales,
+        'attendance_count': attendance_count,
+        'present_count': present_count,
+        'absent_count': absent_count,
+    }
+
+    return render(request, 'hr_dashboard.html', context)
+
+
 
 
 def employee_view(request):
@@ -89,8 +123,8 @@ def attendance_view(request):
     return render(request,'attendance.html',{'att':att})
 
 
-from django.shortcuts import render
-from django.db.models import Q
+# from django.shortcuts import render
+# from django.db.models import Q
 from datetime import datetime
 from .models import Employees, Emp_Attendance
 
@@ -132,8 +166,12 @@ def logout_view(request):
     return redirect(request,"employee-login")
 #--------------------------------------------------Employee Details------------------------------------------------------------
 
-def emp_dash(request):
-    return render(request, "Employee/employee_dashboard.html")
+from datetime import date
+from django.shortcuts import render
+from .models import Employees, Emp_Attendance
+
+
+
 
 def employee_login(request):
     if request.method=="POST":
@@ -154,9 +192,39 @@ def employee_login(request):
             return render(request, "Employee/emp_login.html", {"error": "Invalid credentials"})
     return render(request, "Employee/emp_login.html")   
 
-def dashborad_view(request):
-    return render(request,'Employee/employee_dashboard.html')
 
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from .models import Employees, Emp_Attendance
+
+@login_required
+def dashboard_view(request):
+    # Get the logged-in employee
+    emp = get_object_or_404(Employees, user=request.user)
+
+    # Get all attendance records for this employee, latest first
+    attendance_list = Emp_Attendance.objects.filter(employee=emp).order_by('-date')
+
+    # Today's date
+    today = datetime.now().date()
+
+    # Count present and absent days for the current month
+    present_days = attendance_list.filter(status__icontains="present", date__month=today.month, date__year=today.year).count()
+    absent_days = attendance_list.filter(status__icontains="leave", date__month=today.month, date__year=today.year).count()
+    print(absent_days)
+
+    context = {
+        'employee': emp,
+        'attendance_list': attendance_list[:5],  # show latest 5 records
+        'present_days': present_days,
+        'absent_days': absent_days,
+    }
+
+    return render(request, 'Employee/employee_dashboard.html', context)
+
+
+   
 
 
 from datetime import datetime
@@ -264,45 +332,48 @@ def id_card_view(request):
 def employee_salary_view(request):
     date = datetime.now()
     month = date.strftime("%B")
-    print(month)
+    
     year = date.year
     data=emp_Salary.objects.filter(month=month,year=year)
     if request.method=="POST":
-         print("hello")
+     
          month = request.POST.get("month") 
          print(month)     # format: YYYY-MM
 
          if month:
             m = datetime.strptime(month, "%Y-%m")
             mon= m.strftime("%B")
-            print(m.month,m.year)
+          
             data=emp_Salary.objects.filter(month=mon,year=m.year)
-            print(data)
             return render(request,'salary.html',{'data':data})
     return render(request,'salary.html',{'data':data})
 
 
-def generate_salary(request):
-    month = request.GET.get("month")      # format: YYYY-MM
 
-    if month:
-        m = datetime.strptime(month, "%Y-%m")
+
+def generate_salary(request):
+    month = request.GET.get("month")
+
+    # 🚨 HARD STOP if month is empty or missing
+    if not month:
+        return redirect('emp-salary')
+
+    # ✅ Now m is GUARANTEED
+    m = datetime.strptime(month, "%Y-%m")
 
     employees = Employees.objects.all()
 
     for emp in employees:
-
-        # Fetch attendance for selected month
         attendance_qs = Emp_Attendance.objects.filter(
             employee=emp,
             date__year=m.year,
             date__month=m.month
         )
 
-        # Calculate & Save Salary
         calculate_salary(emp, attendance_qs, m)
 
     return redirect('emp-salary')
+
 
 
 
@@ -328,9 +399,12 @@ def calculate_salary(employee, attendance_qs, month_obj):
         }
     )
 
-def employee_salary_slip(request,sal_id):
+def employee_salary_slip(request,sal_id,sal_date):
+   
+    m = datetime.strptime(sal_date, "%Y-%m-%d")
+    mon=m.strftime("%B")
+    salary=emp_Salary.objects.get(employee=sal_id,month=mon,year=m.year)
 
-    salary=emp_Salary.objects.filter(employee=sal_id).first()
     print(salary)
     return render(request,'emp_salary_slip.html',{'i':salary})
 

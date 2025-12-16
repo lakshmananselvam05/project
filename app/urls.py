@@ -16,12 +16,12 @@ urlpatterns=[
     path("",employee_login,name="employee-login"),
     path('attendance/',attendance_view,name='attendance'),
 #-----------------------------employee details---------------------------------------------------------------------------------
-    path('emp_dashboard/',dashborad_view,name='emp_dashboard'),
+    path('emp_dashboard/',dashboard_view,name='emp_dashboard'),
     path("id_card/",id_card_view,name="id-details"),
     path("emp-attendance/",employee_attendance_view,name="emp-attendance"),
     path("emp-salary/",employee_salary_view,name="emp-salary"),
     path("generate-salary/",generate_salary,name="gen-sal"),
-    path("emp-salary-slip/<int:sal_id>/",employee_salary_slip,name="emp-salary-slip"),
+    path("emp-salary-slip/<int:sal_id>/<sal_date>",employee_salary_slip,name="emp-salary-slip"),
     path("silp-view/",silp_view,name="silp_view"),
 
 
