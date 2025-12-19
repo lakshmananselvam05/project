@@ -39,14 +39,15 @@ def HR_dashborad_view(request):
 
     # Attendance counts
     attendance = Emp_Attendance.objects.filter(date=datetime.now().date())
-   
+    print( attendance )
     attendance_count = attendance.count()
-   
+    print(attendance_count )
     date = datetime.now().date()
     present_count = attendance.filter(status='present',date=date).count()
 
+    print(present_count)
     absent_count = attendance.filter(status='absent',date=date).count()
-
+    print(absent_count)
     context = {
         'emp': emp,
         'it': it,
@@ -350,29 +351,19 @@ def employee_salary_view(request):
 
 
 
-def generate_salary(request):
-    month = request.GET.get("month")
-
-    # 🚨 HARD STOP if month is empty or missing
+def generate_salary(request): 
+    month = request.GET.get("month") 
+    # 🚨 HARD STOP
     if not month:
-        return redirect('emp-salary')
-
-    # ✅ Now m is GUARANTEED
+        return redirect('emp-salary') 
     m = datetime.strptime(month, "%Y-%m")
-
     employees = Employees.objects.all()
-
-    for emp in employees:
-        attendance_qs = Emp_Attendance.objects.filter(
-            employee=emp,
-            date__year=m.year,
-            date__month=m.month
-        )
-
+    for emp in employees: 
+        attendance_qs = Emp_Attendance.objects.filter( employee=emp, date__year=m.year, date__month=m.month )
+    
         calculate_salary(emp, attendance_qs, m)
 
     return redirect('emp-salary')
-
 
 
 
