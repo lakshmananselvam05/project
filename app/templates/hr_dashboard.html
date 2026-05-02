@@ -1,121 +1,98 @@
+{% include "hr_navbar.html" %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> HR Dashboard</title>
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-        .dashboard-container {
-            min-height: 40vh;
-            padding: 40px;
-            margin-top: 90px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-        }
-
-        .dashboard-card {
-            padding: 30px 20px;
-            border-radius: 14px;
-            color: #fff;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
-            transition: transform 0.3s ease;
-        }
-
-        .dashboard-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .dashboard-icon {
-            font-size: 38px;
-            margin-bottom: 10px;
-        }
-
-        .dashboard-card h3 {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-
-        .dashboard-count {
-            font-size: 46px;
-            font-weight: bold;
-        }
-
-        /* Colors */
-        .total { background: linear-gradient(135deg, #4e73df, #224abe); }
-        .it { background: linear-gradient(135deg, #1cc88a, #13855c); }
-        .finance { background: linear-gradient(135deg, #f6c23e, #dda20a); }
-        .marketing { background: linear-gradient(135deg, #e74a3b, #be2617); }
-        .sales { background: linear-gradient(135deg, #36b9cc, #258391); }
-        .present { background: linear-gradient(135deg, #28a745, #1e7e34); }
-        .absent { background: linear-gradient(135deg, #dc3545, #a71d2a); }
-    </style>
+<meta charset="UTF-8">
+<title>HR Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8}
+.content{padding:1.5rem}
+.page-title{font-size:20px;font-weight:700;color:#1B3A6B;margin-bottom:1.25rem}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.5rem}
+.stat-card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1.1rem 1.25rem}
+.stat-label{font-size:11px;color:#6B7280;font-weight:600;text-transform:uppercase;margin-bottom:6px}
+.stat-value{font-size:26px;font-weight:700;color:#1B3A6B}
+.stat-sub{font-size:11px;color:#9CA3AF;margin-top:2px}
+.card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1.25rem;margin-bottom:1.25rem}
+.card-title{font-size:14px;font-weight:600;color:#1B3A6B;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.dept-card{background:#F8FAFC;border:1px solid #E8ECF0;border-radius:8px;padding:0.9rem;text-align:center}
+.dept-name{font-size:11px;color:#6B7280;font-weight:600;margin-bottom:4px}
+.dept-count{font-size:22px;font-weight:700;color:#1B3A6B}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;border-bottom:2px solid #E8ECF0}
+.table td{padding:9px 12px;border-bottom:1px solid #F3F4F6}
+.table tr:hover td{background:#FAFBFC}
+.badge{font-size:10px;font-weight:600;padding:2px 10px;border-radius:999px}
+.badge-blue{background:#E6F1FB;color:#185FA5}
+</style>
 </head>
-
 <body>
-
-{% include "hr_navbar.html" %}
-
-<div class="dashboard-container">
-
-    <div class="dashboard-card total">
-        <i class="fas fa-users dashboard-icon"></i>
-        <h3>Total Employees</h3>
-        <div class="dashboard-count">{{ emp }}</div>
+<div class="content">
+  <div class="page-title">📊 HR Dashboard</div>
+  <div class="stat-grid">
+    <div class="stat-card" style="border-left:4px solid #1B3A6B">
+      <div class="stat-label">Total Employees</div>
+      <div class="stat-value">{{ emp }}</div>
+      <div class="stat-sub">All departments</div>
     </div>
-
-    <div class="dashboard-card it">
-        <i class="fas fa-laptop-code dashboard-icon"></i>
-        <h3>IT Department</h3>
-        <div class="dashboard-count">{{ it }}</div>
+    <div class="stat-card" style="border-left:4px solid #27A85A">
+      <div class="stat-label">Present Today</div>
+      <div class="stat-value" style="color:#27A85A">{{ present_count }}</div>
+      <div class="stat-sub">{{ today }}</div>
     </div>
-
-    <div class="dashboard-card finance">
-        <i class="fas fa-coins dashboard-icon"></i>
-        <h3>Finance Department</h3>
-        <div class="dashboard-count">{{ finance }}</div>
+    <div class="stat-card" style="border-left:4px solid #E05C00">
+      <div class="stat-label">Absent Today</div>
+      <div class="stat-value" style="color:#E05C00">{{ absent_count }}</div>
+      <div class="stat-sub">{{ today }}</div>
     </div>
-
-    <div class="dashboard-card marketing">
-        <i class="fas fa-bullhorn dashboard-icon"></i>
-        <h3>Marketing Department</h3>
-        <div class="dashboard-count">{{ marketing }}</div>
+    <div class="stat-card" style="border-left:4px solid #0A7EA4">
+      <div class="stat-label">Attendance Marked</div>
+      <div class="stat-value" style="color:#0A7EA4">{{ attendance_count }}</div>
+      <div class="stat-sub">Total today</div>
     </div>
-
-    <div class="dashboard-card sales">
-        <i class="fas fa-chart-line dashboard-icon"></i>
-        <h3>Sales Department</h3>
-        <div class="dashboard-count">{{ sales }}</div>
+    <div class="stat-card" style="border-left:4px solid #854F0B">
+      <div class="stat-label">Total Payroll</div>
+      <div class="stat-value" style="color:#854F0B;font-size:18px">₹{{ total_salary }}</div>
+      <div class="stat-sub">Monthly</div>
     </div>
-
-    <div class="dashboard-card total">
-        <i class="fas fa-calendar-check dashboard-icon"></i>
-        <h3>Total Attendance</h3>
-        <div class="dashboard-count">{{ attendance_count }}</div>
+  </div>
+  <div class="card">
+    <div class="card-title">🏢 Department Wise</div>
+    <div class="dept-grid">
+      <div class="dept-card"><div class="dept-name">IT</div><div class="dept-count">{{ it }}</div></div>
+      <div class="dept-card"><div class="dept-name">Finance</div><div class="dept-count">{{ finance }}</div></div>
+      <div class="dept-card"><div class="dept-name">Marketing</div><div class="dept-count">{{ marketing }}</div></div>
+      <div class="dept-card"><div class="dept-name">Sales</div><div class="dept-count">{{ sales }}</div></div>
     </div>
-
-    <div class="dashboard-card present">
-        <i class="fas fa-user-check dashboard-icon"></i>
-        <h3>Present</h3>
-        <div class="dashboard-count">{{ present_count }}</div>
+  </div>
+  <div class="card">
+    <div class="card-title">
+      👥 Recent Employees
+      <a href="{% url 'employee' %}" style="font-size:12px;color:#185FA5;text-decoration:none">View All →</a>
     </div>
-
-    <div class="dashboard-card absent">
-        <i class="fas fa-user-times dashboard-icon"></i>
-        <h3>Absent</h3>
-        <div class="dashboard-count">{{ absent_count }}</div>
-    </div>
-    
- 
+    <table class="table">
+      <thead><tr><th>Emp ID</th><th>Name</th><th>Department</th><th>Designation</th><th>Salary</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for e in recent_employees %}
+        <tr>
+          <td><span class="badge badge-blue">{{ e.emp_id }}</span></td>
+          <td><a href="{% url 'employee_detail' e.id %}" style="color:#1B3A6B;font-weight:600;text-decoration:none">{{ e.name }}</a></td>
+          <td>{{ e.depertment }}</td>
+          <td>{{ e.designation }}</td>
+          <td>₹{{ e.salary }}</td>
+          <td style="display:flex;gap:6px">
+            <a href="{% url 'employee_edit' e.id %}" style="background:#E6F1FB;color:#185FA5;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none">✏️</a>
+            <a href="{% url 'employee_delete' e.id %}" style="background:#FCEBEB;color:#A32D2D;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:600;text-decoration:none" onclick="return confirm('Delete?')">🗑️</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" style="text-align:center;padding:2rem;color:#9CA3AF">No employees yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
-
 </body>
 </html>

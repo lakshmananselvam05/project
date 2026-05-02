@@ -1,181 +1,90 @@
+{% include "hr_navbar.html" %}
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>HR Attendance Panel</title>
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            /* background: #f4f6fc; */
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        /* MAIN CONTAINER */
-        .container {
-            width: 100%;
-            overflow-y: scroll;
-        }
-
-        /* FILTER SECTION */
-        .filter-box {
-            padding: 15px;
-            border: 1px solid #ccc;
-            margin: 0 auto 20px;
-            width: 90%;
-            border-radius: 6px;
-            /* background: #fff; */
-        }
-
-        .filter-box form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        select,
-        input[type="month"] {
-            padding: 8px;
-            border: 1px solid #aaa;
-            border-radius: 4px;
-            min-width: 160px;
-        }
-
-        button {
-            padding: 8px 16px;
-            cursor: pointer;
-            background: #75025e;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        /* TABLE */
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 95%;
-            border-collapse: collapse;
-            margin: 0 auto;
-            /* background: #fff; */
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        th {
-            background: #75025e7b;
-            font-weight: bold;
-        }
-
-        a {
-            color: lab(94.68% 2.89 -1.71);
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Attendance Panel</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8}
+.content{padding:1.5rem}
+.page-title{font-size:20px;font-weight:700;color:#1B3A6B;margin-bottom:1.25rem}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.25rem}
+.stat-card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1rem;text-align:center}
+.stat-label{font-size:11px;font-weight:600;color:#6B7280;margin-bottom:4px}
+.stat-val{font-size:24px;font-weight:700}
+.card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1.25rem;margin-bottom:1.25rem}
+.filter-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:600;color:#4B5563;text-transform:uppercase}
+.field input,.field select{font-size:13px;padding:7px 12px;border:1px solid #D1D5DB;border-radius:7px;background:#fff}
+.btn{font-size:12px;font-weight:600;padding:7px 16px;border-radius:7px;cursor:pointer;border:none;text-decoration:none}
+.btn-primary{background:#1B3A6B;color:#fff}
+.btn-clear{background:#F3F4F6;color:#374151}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;border-bottom:2px solid #E8ECF0}
+.table td{padding:9px 12px;border-bottom:1px solid #F3F4F6}
+.table tr:hover td{background:#FAFBFC}
+.badge{font-size:10px;font-weight:600;padding:2px 10px;border-radius:999px}
+</style>
 </head>
-
 <body>
-
-{% include "hr_navbar.html" %}
-
-<div class="container">
-
-    <h2>HR – Employee Attendance Report</h2>
-
-    <!-- FILTER SECTION -->
-    <div class="filter-box">
-        <form method="get">
-            <input type="month" name="month" value="{{ selected_month }}">
-
-            <select name="department">
-                <option value="">All Departments</option>
-                <option value="HR" {% if selected_department == "HR" %}selected{% endif %}>HR</option>
-                <option value="IT" {% if selected_department == "IT" %}selected{% endif %}>IT</option>
-                <option value="Finance" {% if selected_department == "Finance" %}selected{% endif %}>Finance</option>
-                <option value="Marketing" {% if selected_department == "Marketing" %}selected{% endif %}>Marketing</option>
-                <option value="Sales" {% if selected_department == "Sales" %}selected{% endif %}>Sales</option>
-            </select>
-
-            <select name="employee">
-                <option value="">All Employees</option>
-                {% for emp in employees %}
-                    <option value="{{ emp.id }}"
-                        {% if selected_employee == emp.id|stringformat:"s" %}selected{% endif %}>
-                        {{ emp.name }} - {{ emp.emp_id }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <button type="submit">Apply Filter</button>
-        </form>
-    </div>
-
-    <!-- TABLE -->
-    <div class="table-container">
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Employee</th>
-                <th>Department</th>
-                <th>Status</th>
-                <th>Check In</th>
-                <th>Check Out</th>
-                <th>Total Hours</th>
-                <th>Generated Salary</th>
-            </tr>
-
-            {% for att in attendance %}
-            <tr>
-                <td>{{ att.date }}</td>
-                <td>{{ att.employee.name }} ({{ att.employee.emp_id }})</td>
-               <td>{{ att.employee.depertment }}</td>
-                <td>{{ att.status }}</td>
-                <td>{{ att.check_in }}</td>
-                <td>{{ att.check_out }}</td>
-                <td>{{ att.total_hours }}</td>
-                <td>
-                    <a href="{% url 'emp-salary-slip' att.employee.id att.date %}">
-                        View Salary
-                    </a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="8">No attendance found for selected filters</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-
+<div class="content">
+  <div class="page-title">📅 Attendance Panel</div>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-label">✅ Present</div><div class="stat-val" style="color:#27A85A">{{ present_count }}</div></div>
+    <div class="stat-card"><div class="stat-label">❌ Absent</div><div class="stat-val" style="color:#E05C00">{{ absent_count }}</div></div>
+    <div class="stat-card"><div class="stat-label">🏖️ Leave</div><div class="stat-val" style="color:#854F0B">{{ leave_count }}</div></div>
+  </div>
+  <div class="card">
+    <form method="get" class="filter-row">
+      <div class="field"><label>Month</label><input type="month" name="month" value="{{ selected_month }}"></div>
+      <div class="field">
+        <label>Department</label>
+        <select name="department">
+          <option value="">All</option>
+          <option value="HR" {% if selected_department == 'HR' %}selected{% endif %}>HR</option>
+          <option value="IT" {% if selected_department == 'IT' %}selected{% endif %}>IT</option>
+          <option value="Finance" {% if selected_department == 'Finance' %}selected{% endif %}>Finance</option>
+          <option value="Marketing" {% if selected_department == 'Marketing' %}selected{% endif %}>Marketing</option>
+          <option value="Sales" {% if selected_department == 'Sales' %}selected{% endif %}>Sales</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Employee</label>
+        <select name="employee">
+          <option value="">All Employees</option>
+          {% for e in employees %}<option value="{{ e.id }}" {% if selected_employee == e.id|stringformat:"s" %}selected{% endif %}>{{ e.name }}</option>{% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Filter</button>
+      <a href="{% url 'hr_attendance_panel' %}" class="btn btn-clear">Clear</a>
+    </form>
+  </div>
+  <div class="card">
+    <table class="table">
+      <thead><tr><th>Employee</th><th>Department</th><th>Date</th><th>Status</th><th>Check In</th><th>Check Out</th><th>Hours</th></tr></thead>
+      <tbody>
+        {% for a in attendance %}
+        <tr>
+          <td style="font-weight:600;color:#1B3A6B">{{ a.employee.name }}</td>
+          <td>{{ a.employee.depertment }}</td>
+          <td>{{ a.date }}</td>
+          <td>
+            {% if 'present' in a.status|lower %}<span class="badge" style="background:#EAF3DE;color:#27500A">✅ Present</span>
+            {% elif 'absent' in a.status|lower %}<span class="badge" style="background:#FCEBEB;color:#A32D2D">❌ Absent</span>
+            {% else %}<span class="badge" style="background:#FAEEDA;color:#633806">🏖️ Leave</span>{% endif %}
+          </td>
+          <td>{{ a.check_in|default:"-" }}</td>
+          <td>{{ a.check_out|default:"-" }}</td>
+          <td>{{ a.total_hours }}h</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" style="text-align:center;padding:2rem;color:#9CA3AF">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
-
 </body>
 </html>

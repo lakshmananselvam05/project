@@ -1,91 +1,78 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salary Slip</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            /* background: #f4f6f9; */
-            padding: 30px;
-        }
-
-        .slip-table {
-            width: 60%;
-            margin: 40px auto;
-            border-collapse: collapse;
-            /* background: #fff; */
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-top: 90px;
-        }
-
-        .slip-table th {
-            background: #4c03a5;
-            color: #fff;
-            text-align: left;
-            padding: 12px 18px;
-            width: 40%;
-            font-size: 16px;
-        }
-
-        .slip-table td {
-            /* background: #fafafa; */
-            padding: 12px 18px;
-            font-size: 16px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .slip-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .slip-table td b {
-            font-size: 18px;
-            color: #000;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Salary Slip</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8;padding:2rem}
+.slip{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:2rem;max-width:600px;margin:0 auto;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.slip-header{text-align:center;border-bottom:2px solid #1B3A6B;padding-bottom:1rem;margin-bottom:1.5rem}
+.company{font-size:22px;font-weight:700;color:#1B3A6B}
+.slip-title{font-size:13px;color:#6B7280;margin-top:4px;font-weight:500}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F3F4F6;font-size:13px}
+.row-label{color:#6B7280;font-weight:500}
+.row-val{font-weight:600;color:#1a1a2e}
+.total-row{display:flex;justify-content:space-between;padding:14px 0;font-size:16px;font-weight:700;color:#27500A;border-top:2px solid #1B3A6B;margin-top:8px}
+.btn-row{display:flex;gap:10px;justify-content:center;margin-top:1.5rem}
+.btn{font-size:13px;font-weight:600;padding:9px 24px;border-radius:7px;cursor:pointer;border:none;text-decoration:none;display:inline-block}
+.btn-primary{background:#1B3A6B;color:#fff}
+.btn-secondary{background:#F3F4F6;color:#374151}
+@media print{.btn-row{display:none}body{background:#fff;padding:0}.slip{box-shadow:none;border:none}}
+</style>
 </head>
-
 <body>
+<div class="slip">
+  <div class="slip-header">
+    <div class="company">🏢 Company Name</div>
+    <div class="slip-title">SALARY SLIP — {{ i.month }} {{ i.year }}</div>
+  </div>
 
-    {% include "hr_navbar.html" %}
+  <div class="row">
+    <span class="row-label">Employee Name</span>
+    <span class="row-val">{{ i.employee.name }}</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Employee ID</span>
+    <span class="row-val">{{ i.employee.emp_id }}</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Department</span>
+    <span class="row-val">{{ i.employee.depertment }}</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Designation</span>
+    <span class="row-val">{{ i.employee.designation }}</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Salary Month</span>
+    <span class="row-val">{{ i.month }} {{ i.year }}</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Working Days</span>
+    <span class="row-val">30 days</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Present Days</span>
+    <span class="row-val">{{ i.present_days }} days</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Basic Salary</span>
+    <span class="row-val">₹{{ i.employee.salary }}</span>
+  </div>
+  <div class="row">
+    <span class="row-label">Per Day Salary</span>
+    <span class="row-val">₹{{ i.employee.salary }} ÷ 30</span>
+  </div>
+  <div class="total-row">
+    <span>💰 Net Salary Paid</span>
+    <span>₹{{ i.salary }}</span>
+  </div>
 
-    <table class="slip-table">
-
-       
-        <tr>
-            <th>Employee Name</th>
-            <td>{{ i.employee.name }}</td>
-        </tr>
-
-        <tr>
-            <th>Month</th>
-            <td>{{i.month }}</td>
-        </tr>
-
-        <tr>
-            <th>Year</th>
-            <td>{{ i.year }}</td>
-        </tr>
-
-        <tr>
-            <th>Present Days</th>
-            <td>{{ i.present_days }}</td>
-        </tr>
-
-        <tr>
-            <th>Total Salary</th>
-            <td><b>₹ {{ i.salary }}</b></td>
-        </tr>
-      
-
-    </table>
-
+  <div class="btn-row">
+    <a href="{% url 'emp-salary' %}" class="btn btn-secondary">← Back</a>
+    <button onclick="window.print()" class="btn btn-primary">🖨️ Print Slip</button>
+  </div>
+</div>
 </body>
 </html>

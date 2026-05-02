@@ -1,0 +1,93 @@
+{% include "hr_navbar.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{{ emp.name }}</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8}
+.content{padding:1.5rem;max-width:750px;margin:0 auto}
+.card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1.25rem;margin-bottom:1.25rem}
+.badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:999px}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;border-bottom:2px solid #E8ECF0}
+.table td{padding:9px 12px;border-bottom:1px solid #F3F4F6}
+</style>
+</head>
+<body>
+<div class="content">
+  <a href="{% url 'employee' %}" style="font-size:13px;color:#6B7280;text-decoration:none;display:inline-block;margin-bottom:1rem">← Back</a>
+  <div class="card" style="display:flex;align-items:center;gap:20px">
+    {% if emp.photo %}
+      <img src="{{ emp.photo.url }}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #E6F1FB;flex-shrink:0">
+    {% else %}
+      <div style="width:80px;height:80px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#1B3A6B;flex-shrink:0">{{ emp.name|first|upper }}</div>
+    {% endif %}
+    <div style="flex:1">
+      <div style="font-size:20px;font-weight:700;color:#1B3A6B">{{ emp.name }}</div>
+      <div style="font-size:13px;color:#6B7280;margin-top:2px">{{ emp.designation }} — {{ emp.depertment }}</div>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge" style="background:#E6F1FB;color:#185FA5">{{ emp.emp_id }}</span>
+        <span class="badge" style="background:#EAF3DE;color:#27500A">{{ emp.Gender }}</span>
+        <span class="badge" style="background:#FAEEDA;color:#633806">📞 {{ emp.phone }}</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a href="{% url 'employee_edit' emp.id %}" style="background:#E6F1FB;color:#185FA5;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;text-align:center">✏️ Edit</a>
+      <a href="{% url 'create-id' emp.id %}" style="background:#EAF3DE;color:#27500A;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;text-align:center">🪪 ID Card</a>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem">
+    <div style="background:#E6F1FB;border:1px solid #B8D4F5;border-radius:8px;padding:1rem;text-align:center">
+      <div style="font-size:11px;color:#185FA5;font-weight:600;margin-bottom:4px">💰 Salary</div>
+      <div style="font-size:18px;font-weight:700;color:#1B3A6B">₹{{ emp.salary }}</div>
+    </div>
+    <div style="background:#EAF3DE;border:1px solid #C0DD97;border-radius:8px;padding:1rem;text-align:center">
+      <div style="font-size:11px;color:#27500A;font-weight:600;margin-bottom:4px">✅ Present</div>
+      <div style="font-size:18px;font-weight:700;color:#27500A">{{ present_days }}</div>
+    </div>
+    <div style="background:#FCEBEB;border:1px solid #F09595;border-radius:8px;padding:1rem;text-align:center">
+      <div style="font-size:11px;color:#A32D2D;font-weight:600;margin-bottom:4px">❌ Absent</div>
+      <div style="font-size:18px;font-weight:700;color:#A32D2D">{{ absent_days }}</div>
+    </div>
+    <div style="background:#FAEEDA;border:1px solid #FAC775;border-radius:8px;padding:1rem;text-align:center">
+      <div style="font-size:11px;color:#633806;font-weight:600;margin-bottom:4px">🏖️ Leave</div>
+      <div style="font-size:18px;font-weight:700;color:#633806">{{ leave_days }}</div>
+    </div>
+  </div>
+  {% if latest_salary %}
+  <div class="card">
+    <div style="font-size:14px;font-weight:600;color:#1B3A6B;margin-bottom:10px">💳 Latest Salary — {{ latest_salary.month }} {{ latest_salary.year }}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#F8FAFC;padding:0.75rem;border-radius:7px"><div style="font-size:11px;color:#6B7280">Present Days</div><div style="font-size:18px;font-weight:600;color:#1B3A6B">{{ latest_salary.present_days }}</div></div>
+      <div style="background:#EAF3DE;padding:0.75rem;border-radius:7px"><div style="font-size:11px;color:#27500A">Salary Paid</div><div style="font-size:18px;font-weight:600;color:#27500A">₹{{ latest_salary.salary }}</div></div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="card">
+    <div style="font-size:14px;font-weight:600;color:#1B3A6B;margin-bottom:10px">📅 Recent Attendance</div>
+    <table class="table">
+      <thead><tr><th>Date</th><th>Status</th><th>Check In</th><th>Check Out</th><th>Hours</th></tr></thead>
+      <tbody>
+        {% for a in recent_attendance %}
+        <tr>
+          <td>{{ a.date }}</td>
+          <td>
+            {% if 'present' in a.status|lower %}<span class="badge" style="background:#EAF3DE;color:#27500A">✅ Present</span>
+            {% elif 'absent' in a.status|lower %}<span class="badge" style="background:#FCEBEB;color:#A32D2D">❌ Absent</span>
+            {% else %}<span class="badge" style="background:#FAEEDA;color:#633806">🏖️ Leave</span>{% endif %}
+          </td>
+          <td>{{ a.check_in|default:"-" }}</td>
+          <td>{{ a.check_out|default:"-" }}</td>
+          <td>{{ a.total_hours }}h</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align:center;padding:2rem;color:#9CA3AF">No records.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,205 +1,52 @@
+{% include "Employee/employee_navbar.html" %}
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ID Cards</title>
-
-    <!-- Navbar External CSS -->
-    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-
-    <!-- ================== YOUR STYLE ADDED HERE ================== -->
-    <style>
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Scrollable Content Box */
-        .main-container {
-            margin-top: 80px;
-            padding: 15px;
-            height: calc(100vh - 140px);
-            overflow-y: auto;
-        }
-
-        /* WRAPPER */
-        .idcard-box {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 120px;   /* space for navbar */
-        }
-
-        /* ---------- FRONT CARD ---------- */
-        .id-card {
-            width: 280px;
-            height: 390px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            background: linear-gradient(180deg, #0a1b4f, #012b79);
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-            color: white;
-        }
-
-        .vertical-text {
-            position: absolute;
-            left: -60px;
-            top: 150px;
-            transform: rotate(-90deg);
-            font-size: 60px;
-            opacity: 0.12;
-            font-weight: bold;
-        }
-
-        .profile-section {
-            text-align: center;
-            padding-top: 15px;
-        }
-
-        .profile-section img {
-            width: 130px;
-            height: 130px;
-            border-radius: 20px;
-            object-fit: cover;
-            border: 4px solid white;
-        }
-
-        .emp-info {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .emp-info h3 {
-            margin: 8px 0 4px;
-            font-size: 20px;
-        }
-
-        .emp-info p {
-            margin: 3px 0;
-            font-size: 14px;
-            opacity: 0.85;
-        }
-
-        .barcode {
-            width: 90%;
-            height: 50px;
-            background: repeating-linear-gradient(90deg, #fff 0px, #fff 2px, #000 4px, #000 6px);
-            margin: 20px auto;
-            border-radius: 6px;
-        }
-
-        /* ---------- BACK CARD ---------- */
-        .id-card-back {
-            width: 240px;
-            height: 340px;
-            border-radius: 20px;
-            padding: 25px;
-            background: linear-gradient(180deg, #012b79, #00091a);
-            color: white;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .back-logo {
-            font-size: 25px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .terms {
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.5;
-            opacity: 0.85;
-            margin-bottom: 30px;
-        }
-
-        .contact-box {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .contact-box p {
-            margin: 6px 0;
-            font-size: 14px;
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<title>My ID Card</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8;padding:2rem}
+.id-card{background:#fff;border-radius:14px;overflow:hidden;max-width:360px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,0.10)}
+.id-header{background:#1B3A6B;padding:1rem;text-align:center}
+.id-header-title{color:#fff;font-size:13px;font-weight:700;letter-spacing:0.08em}
+.id-body{padding:1.5rem;text-align:center}
+.avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #E6F1FB;margin:0 auto 0.75rem}
+.avatar-init{width:80px;height:80px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;color:#1B3A6B;margin:0 auto 0.75rem}
+.emp-name{font-size:18px;font-weight:700;color:#1B3A6B;margin-bottom:2px}
+.emp-role{font-size:12px;color:#6B7280;margin-bottom:10px}
+.emp-id{font-size:11px;font-weight:700;background:#E6F1FB;color:#185FA5;padding:3px 14px;border-radius:999px;display:inline-block;margin-bottom:1.25rem}
+.info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #F3F4F6;font-size:12px}
+.info-label{color:#6B7280;font-weight:500}
+.info-val{font-weight:600;color:#374151}
+.id-footer{background:#F8FAFC;padding:0.75rem;text-align:center;font-size:11px;color:#9CA3AF;border-top:1px solid #E8ECF0}
+.no-card{text-align:center;padding:3rem;color:#9CA3AF;font-size:14px}
+</style>
 </head>
-
 <body>
-
-<div class="idcard-box">
-
-    {% include "Employee/employee_navbar.html" %}
-
-    {% if id_details %}
-    
-        {% for i in id_details %}
-
-        <!-- ======== FRONT SIDE ======== -->
-        <div class="id-card">
-            
-            <img src="{% static 'image/Logo (2).png' %}" 
-                 alt="logo" width="100" height="60" class="logo">
-
-            <div class="vertical-text">Employee</div>
-
-            <div class="profile-section">
-                <img src="{{ i.employee.photo.url }}" alt="photo">
-            </div>
-
-            <div class="emp-info">
-                <h3>{{ i.employee }}</h3>
-                <p>Blood Group: {{ i.Blood_Group }}</p>
-                <p>DOB: {{ i.DOB }}</p>
-            </div>
-
-            <div class="barcode"></div>
-        </div>
-
-        <!-- ======== BACK SIDE ======== -->
-        <div class="id-card-back">
-
-            <div class="back-logo">botnet</div>
-
-            <h3 style="text-align:center;margin-bottom:10px;">
-                Terms & Conditions
-            </h3>
-
-            <p class="terms">
-                This ID card must be carried inside office premises.
-                If found, please return to the company.
-            </p>
-
-            <div class="contact-box">
-                <p><strong>Contact</strong></p>
-                <p>+91 879 456 7890</p>
-                <p>info@company.com</p>
-                <p>{{ i.address }}</p>
-                <p>Emergency No: {{ i.Emergency_contact_No }}</p>
-            </div>
-
-        </div>
-
-        {% endfor %}
-    
-    {% else %}
-        <h1>No ID card generated</h1>
-    {% endif %}
-
-</div>
-
+{% if id_details %}
+  {% for card in id_details %}
+  <div class="id-card">
+    <div class="id-header"><div class="id-header-title">🪪 EMPLOYEE ID CARD</div></div>
+    <div class="id-body">
+      {% if card.employee.photo %}
+        <img src="{{ card.employee.photo.url }}" class="avatar">
+      {% else %}
+        <div class="avatar-init">{{ card.employee.name|first|upper }}</div>
+      {% endif %}
+      <div class="emp-name">{{ card.employee.name }}</div>
+      <div class="emp-role">{{ card.employee.designation }} · {{ card.employee.depertment }}</div>
+      <div class="emp-id">{{ card.employee.emp_id }}</div>
+      <div class="info-row"><span class="info-label">Date of Birth</span><span class="info-val">{{ card.DOB }}</span></div>
+      <div class="info-row"><span class="info-label">Blood Group</span><span class="info-val">{{ card.Blood_Group }}</span></div>
+      <div class="info-row"><span class="info-label">Emergency Contact</span><span class="info-val">{{ card.Emergency_contact_No }}</span></div>
+      <div class="info-row"><span class="info-label">Address</span><span class="info-val">{{ card.address }}</span></div>
+    </div>
+    <div class="id-footer">Company Name · HR Department</div>
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="no-card">🪪 No ID card created yet.<br>Please contact HR.</div>
+{% endif %}
 </body>
 </html>

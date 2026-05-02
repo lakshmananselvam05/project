@@ -1,216 +1,57 @@
+{% include "hr_navbar.html" %}
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ID Card</title>
-
-    <!-- Navbar CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <style>
-        /* ------------------------------
-           FIXED NAVBAR
-        ------------------------------- */
-       
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            /* background: #f3f4f6; */
-        }
-
-        /* Scrollable Content Box */
-        .main-container {
-            margin-top: 80px;   /* Navbar Height Space */
-            padding: 15px;
-            height: calc(100vh - 140px);
-            overflow-y: auto;   /* Scroll Only inside Content */
-        }
-
-        .Logo_img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #fff;
-        }
-
-        /* WRAPPER */
-        .idcard-box {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        /* FRONT CARD */
-        .id-card {
-            width: 280px;
-            height: 390px;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            background: linear-gradient(180deg, #0a1b4f, #012b79);
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-            color: white;
-            padding: 0;
-        }
-
-        .vertical-text {
-            position: absolute;
-            left: -60px;
-            top: 150px;
-            transform: rotate(-90deg);
-            font-size: 60px;
-            opacity: 0.12;
-            font-weight: bold;
-        }
-
-        .profile-section {
-            text-align: center;
-            padding-top: 15px;
-        }
-
-        .profile-section img {
-            width: 130px;
-            height: 130px;
-            border-radius: 20px;
-            object-fit: cover;
-            border: 4px solid white;
-        }
-
-        .emp-info {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .emp-info h3 {
-            margin: 8px 0 4px;
-            font-size: 20px;
-        }
-
-        .emp-info p {
-            margin: 3px 0;
-            font-size: 14px;
-            opacity: 0.85;
-        }
-
-        .barcode {
-            width: 90%;
-            height: 50px;
-            background: repeating-linear-gradient(90deg, #fff 0px, #fff 2px, #000 4px, #000 6px);
-            margin: 20px auto;
-            border-radius: 6px;
-        }
-
-        /* BACK CARD */
-        .id-card-back {
-            width: 240px;
-            height: 340px;
-            border-radius: 20px;
-            padding: 25px;
-            background: linear-gradient(180deg, #012b79, #00091a);
-            color: white;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .back-logo {
-            font-size: 25px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .terms {
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.5;
-            opacity: 0.85;
-            margin-bottom: 30px;
-        }
-
-        .contact-box {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .contact-box p {
-            margin: 6px 0;
-            font-size: 14px;
-        }
-    </style>
-
+<meta charset="UTF-8">
+<title>ID Cards</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8}
+.content{padding:1.5rem}
+.page-title{font-size:20px;font-weight:700;color:#1B3A6B;margin-bottom:1.25rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.id-card{background:#fff;border:1px solid #E8ECF0;border-radius:12px;overflow:hidden}
+.id-card-header{background:#1B3A6B;padding:0.75rem;text-align:center}
+.id-card-header span{color:#fff;font-size:11px;font-weight:700;letter-spacing:0.08em}
+.id-card-body{padding:1.25rem;text-align:center}
+.avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:3px solid #E6F1FB;margin:0 auto 0.75rem}
+.avatar-init{width:64px;height:64px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#1B3A6B;margin:0 auto 0.75rem}
+.emp-name{font-size:14px;font-weight:700;color:#1B3A6B;margin-bottom:2px}
+.emp-role{font-size:11px;color:#6B7280;margin-bottom:8px}
+.emp-id{font-size:10px;font-weight:600;background:#E6F1FB;color:#185FA5;padding:2px 10px;border-radius:999px;display:inline-block;margin-bottom:10px}
+.info-row{font-size:11px;color:#6B7280;text-align:left;margin-bottom:4px;display:flex;justify-content:space-between}
+.info-row span{font-weight:600;color:#374151}
+.btn-edit{display:block;margin-top:12px;background:#1B3A6B;color:#fff;font-size:12px;font-weight:600;padding:7px;border-radius:6px;text-decoration:none;text-align:center}
+</style>
 </head>
-
 <body>
-
-
-    {% include "hr_navbar.html" %}
-
-    <!-- CONTENT WRAPPER -->
-    <div class="main-container">
-
-        <h1 style="text-align:center;">Employee ID Cards</h1>
-
-        <div class="idcard-box">
-
-            {% for i in idcards %}
-
-            <!-- FRONT CARD -->
-            <div class="id-card">
-
-                <img src="{% static 'image/Logo (2).png' %}" class="Logo_img" style="margin: 10px auto; display:block;">
-
-                <div class="vertical-text">EMPLOYEE</div>
-
-                <div class="profile-section">
-                    <img src="{{ i.employee.photo.url }}" alt="Photo">
-                </div>
-
-                <div class="emp-info">
-                    <h3>{{ i.employee }}</h3>
-                    <p>Blood Group: {{ i.Blood_Group }}</p>
-                    <p>DOB: {{ i.DOB }}</p>
-                </div>
-
-                <div class="barcode"></div>
-            </div>
-
-            <!-- BACK CARD -->
-            <div class="id-card-back">
-                <div class="back-logo">botnet</div>
-
-                <h3 style="text-align:center;">Terms & Conditions</h3>
-                <p class="terms">
-                    This ID card must be carried inside office premises.
-                    If found, please return to the HR department.
-                </p>
-
-                <div class="contact-box">
-                    <p><strong>Contact</strong></p>
-                    <p>+91 879 456 7890</p>
-                    <p>info@company.com</p>
-                    <p>{{ i.address }}</p>
-                    <p>Emergency No: {{ i.Emergency_contact_No }}</p>
-                </div>
-            </div>
-
-            {% endfor %}
-
-        </div>
-
+<div class="content">
+  <div class="page-title">🪪 Employee ID Cards</div>
+  <div class="grid">
+    {% for card in idcards %}
+    <div class="id-card">
+      <div class="id-card-header"><span>EMPLOYEE ID CARD</span></div>
+      <div class="id-card-body">
+        {% if card.employee.photo %}
+          <img src="{{ card.employee.photo.url }}" class="avatar">
+        {% else %}
+          <div class="avatar-init">{{ card.employee.name|first|upper }}</div>
+        {% endif %}
+        <div class="emp-name">{{ card.employee.name }}</div>
+        <div class="emp-role">{{ card.employee.designation }}</div>
+        <div class="emp-id">{{ card.employee.emp_id }}</div>
+        <div class="info-row">Dept <span>{{ card.employee.depertment }}</span></div>
+        <div class="info-row">DOB <span>{{ card.DOB }}</span></div>
+        <div class="info-row">Blood <span>{{ card.Blood_Group }}</span></div>
+        <div class="info-row">Emergency <span>{{ card.Emergency_contact_No }}</span></div>
+        <div class="info-row">Address <span>{{ card.address }}</span></div>
+        <a href="{% url 'create-id' card.employee.id %}" class="btn-edit">✏️ Edit Card</a>
+      </div>
     </div>
-
+    {% empty %}
+    <p style="color:#9CA3AF;font-size:13px">No ID cards created yet.</p>
+    {% endfor %}
+  </div>
+</div>
 </body>
-
 </html>
-
-

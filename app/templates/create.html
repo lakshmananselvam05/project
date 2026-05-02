@@ -1,108 +1,43 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Employee</title>
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-    <style>
-
-     
-
-        /* Page background */
-        /* body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-        } */
-
-        /* Scrollable form wrapper */
-        .form-scroll-box {
-            margin-top: 10px;
-            height: calc(100vh - 80px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* overflow-y: auto; */
-           
-        }
-
-        /* Smaller form box */
-        .form-container {
-            width: 480px;   /* smaller width */
-            height: 550px;
-            margin-top: 100px;
-            padding: 18px 20px;          /* smaller padding */
-            /* background: white; */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        /* Particles under everything */
-        .particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: rgb(0, 140, 255);
-            border-radius: 50%;
-            opacity: 0.35;
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<title>Create Account</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.card{background:#fff;border:1px solid #E8ECF0;border-radius:12px;padding:2rem;width:100%;max-width:420px;box-shadow:0 4px 24px rgba(0,0,0,0.07)}
+.card-title{font-size:20px;font-weight:700;color:#1B3A6B;margin-bottom:0.25rem;text-align:center}
+.card-sub{font-size:13px;color:#6B7280;text-align:center;margin-bottom:1.5rem}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:11px;font-weight:600;color:#4B5563;text-transform:uppercase;letter-spacing:0.04em}
+.field input,.field select{font-size:13px;padding:9px 12px;border:1px solid #D1D5DB;border-radius:7px;background:#fff;color:#1a1a2e;width:100%}
+.field input:focus{outline:none;border-color:#1B3A6B;box-shadow:0 0 0 3px rgba(27,58,107,0.08)}
+.errorlist{color:#A32D2D;font-size:12px;list-style:none;margin-top:2px}
+.btn{width:100%;font-size:13px;font-weight:600;padding:10px;border-radius:7px;cursor:pointer;border:none;background:#1B3A6B;color:#fff;margin-top:8px}
+.btn:hover{background:#163160}
+.login-link{text-align:center;font-size:12px;color:#6B7280;margin-top:1rem}
+.login-link a{color:#1B3A6B;font-weight:600;text-decoration:none}
+</style>
 </head>
-
 <body>
-
- 
-        {% include "hr_navbar.html" %}
- \
-
-    <!-- PARTICLES BG -->
-    <div class="particles">
-        <div class="particle" style="top:90%; left:10%;"></div>
-        <div class="particle" style="top:95%; left:40%;"></div>
-        <div class="particle" style="top:80%; left:70%;"></div>
-        <div class="particle" style="top:88%; left:30%;"></div>
-        <div class="particle" style="top:92%; left:90%;"></div>
+<div class="card">
+  <div class="card-title">🏢 HR System</div>
+  <div class="card-sub">Create your account</div>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="field">
+      <label>{{ field.label }}</label>
+      {{ field }}
+      {% if field.errors %}
+        <ul class="errorlist">{% for e in field.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+      {% endif %}
     </div>
-
-    <!-- FORM BOX -->
-    <div class="form-scroll-box">
-
-        <div class="form-container">
-            <h2>Create Employee</h2>
-
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{ form.as_p }}
-
-                <button type="submit">Create Employee</button>
-            </form>
-        </div>
-
-    </div>
-
+    {% endfor %}
+    <button type="submit" class="btn">Create Account</button>
+  </form>
+  <div class="login-link">Already have account? <a href="{% url 'employee-login' %}">Login →</a></div>
+</div>
 </body>
-
 </html>
-
-

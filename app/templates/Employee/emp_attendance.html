@@ -1,194 +1,169 @@
+{% include "Employee/employee_navbar.html" %}
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Attendance</title>
-      <link rel="stylesheet" href="{% static 'css/nav.css' %}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            margin: 10;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: auto;
-            padding-top: 40px;
-        }
-
-        .card {
-            width: 480px;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.2);
-            text-align: center;
-            margin-top: 55px;
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        .info {
-            background: #f8f8f8;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            color: #444;
-            font-weight: bold;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 12px;
-            font-size: 17px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .login-btn {
-            background: #3498db;
-            color: white;
-        }
-
-        .logout-btn {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .disabled-btn {
-            background: #bdc3c7;
-            color: white;
-            cursor: not-allowed;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        th, td {
-            border-bottom: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background: #3498db;
-            color: white;
-        }
-
-       
-
-    </style>
+<meta charset="UTF-8">
+<title>My Attendance</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#F4F6F8}
+.content{padding:1.5rem;max-width:750px;margin:0 auto}
+.page-title{font-size:20px;font-weight:700;color:#1B3A6B;margin-bottom:1.25rem}
+.no-emp{text-align:center;padding:4rem 2rem;background:#fff;border-radius:12px;border:1px solid #E8ECF0;max-width:480px;margin:3rem auto}
+.checkin-card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem;text-align:center}
+.time-display{font-size:36px;font-weight:700;color:#1B3A6B;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.date-display{font-size:13px;color:#6B7280;margin-bottom:1.5rem}
+.status-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.25rem}
+.status-item{background:#F8FAFC;border:1px solid #E8ECF0;border-radius:8px;padding:0.75rem;text-align:center}
+.status-label{font-size:11px;color:#6B7280;font-weight:600;margin-bottom:4px;text-transform:uppercase}
+.status-val{font-size:15px;font-weight:700;color:#1B3A6B}
+.btn-row{display:flex;gap:10px;justify-content:center}
+.btn{font-size:13px;font-weight:700;padding:10px 32px;border-radius:8px;cursor:pointer;border:none}
+.btn-checkin{background:#27A85A;color:#fff}
+.btn-checkin:hover{background:#1e8a48}
+.btn-checkout{background:#E05C00;color:#fff}
+.btn-checkout:hover{background:#c45000}
+.btn-disabled{background:#E5E7EB;color:#9CA3AF;cursor:not-allowed}
+.card{background:#fff;border:1px solid #E8ECF0;border-radius:10px;padding:1.25rem;margin-bottom:1.25rem}
+.card-title{font-size:14px;font-weight:600;color:#1B3A6B;margin-bottom:1rem}
+.filter-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:1rem}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:600;color:#4B5563;text-transform:uppercase}
+.field select{font-size:13px;padding:6px 12px;border:1px solid #D1D5DB;border-radius:7px;background:#fff}
+.btn-sm{font-size:12px;font-weight:600;padding:7px 16px;border-radius:6px;cursor:pointer;border:none;background:#1B3A6B;color:#fff;text-decoration:none;display:inline-block}
+.table{width:100%;border-collapse:collapse;font-size:13px}
+.table th{padding:9px 12px;text-align:left;font-size:11px;font-weight:600;color:#6B7280;text-transform:uppercase;border-bottom:2px solid #E8ECF0}
+.table td{padding:9px 12px;border-bottom:1px solid #F3F4F6}
+.table tr:hover td{background:#FAFBFC}
+.badge{font-size:10px;font-weight:600;padding:2px 10px;border-radius:999px}
+</style>
 </head>
 <body>
-    {% include "Employee/employee_navbar.html" %}
+<div class="content">
+  <div class="page-title">📅 My Attendance</div>
 
-<div>
-
-    <!-- TODAY'S ATTENDANCE CARD -->
-    <div class="card">
-        <h2>Today's Attendance</h2>
-
-        <div class="info">
-            Date: {{ today }} <br>
-            Time: {{ current_time }}<br>
-            Check-in Time: {{checkin}}<br>
-
-            {% if total_hours %}
-                Total Hours: {{ total_hours }}
-            {% endif %}
-        </div>
-
-        <form method="post">
-            {% csrf_token %}
-
-            {% if not checkin %}
-                <button type="submit" name="action" value="login" class="btn login-btn">Check In</button>
-
-            {% elif checkin and not checkout %}
-                <button type="submit" name="action" value="logout" class="btn logout-btn">Check Out</button>
-
-            {% else %}
-                <button class="btn disabled-btn" disabled>Attendance Completed</button>
-            {% endif %}
-        </form>
-
-        <!-- BUTTON TO SHOW HISTORY -->
-        <form method="get">
-            <button type="submit" name="show_history" value="1"
-                    class="btn login-btn" style="margin-top:20px;">
-                Show Attendance History
-            </button>
-        </form>
+  {% if employee_missing %}
+  <!-- ── No Employee Record ── -->
+  <div class="no-emp">
+    <div style="font-size:52px;margin-bottom:1rem">⚠️</div>
+    <div style="font-size:18px;font-weight:700;color:#1B3A6B;margin-bottom:0.5rem">No Employee Record Found</div>
+    <div style="font-size:13px;color:#6B7280;margin-bottom:1.5rem;line-height:1.7">
+        Your account does not have an associated Employee profile.<br>
+        Please contact your HR admin to create your profile.
     </div>
+    <a href="{% url 'emp_dashboard' %}" style="background:#1B3A6B;color:#fff;padding:9px 24px;border-radius:7px;text-decoration:none;font-size:13px;font-weight:600">← Back to Dashboard</a>
+  </div>
 
+  {% else %}
 
-    <!-- ONLY SHOW WHEN CLICKED -->
+  <!-- ── Check In/Out Card ── -->
+  <div class="checkin-card">
+    <div class="time-display">🕐 {{ current_time }}</div>
+    <div class="date-display">{{ today }}</div>
+    <div class="status-row">
+      <div class="status-item">
+        <div class="status-label">Check In</div>
+        <div class="status-val" style="color:#27A85A">{{ checkin|default:"--:--" }}</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Check Out</div>
+        <div class="status-val" style="color:#E05C00">{{ checkout|default:"--:--" }}</div>
+      </div>
+      <div class="status-item">
+        <div class="status-label">Total Hours</div>
+        <div class="status-val" style="color:#1B3A6B">{{ total_hours }}h</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <form method="post">
+        {% csrf_token %}
+        {% if not checkin %}
+          <button type="submit" name="action" value="login" class="btn btn-checkin">✅ Check In</button>
+        {% elif not checkout %}
+          <button type="submit" name="action" value="logout" class="btn btn-checkout">🚪 Check Out</button>
+        {% else %}
+          <button class="btn btn-disabled" disabled>✔ Completed for Today</button>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <!-- ── Attendance History ── -->
+  <div class="card">
+    <div class="card-title">📋 Attendance History</div>
+    <form method="get" class="filter-row">
+      {% if months %}
+      <div class="field">
+        <label>Month</label>
+        <select name="month">
+          {% for m in months %}
+          <option value="{{ m.month }}" {% if m.month == selected_month %}selected{% endif %}>
+            {{ m.month }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label>Year</label>
+        <select name="year">
+          {% for m in months %}
+          <option value="{{ m.year }}" {% if m.year == selected_year %}selected{% endif %}>
+            {{ m.year }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endif %}
+      <a href="?show_history=1&month={{ selected_month }}&year={{ selected_year }}" class="btn-sm">
+        📋 View History
+      </a>
+    </form>
+
     {% if show_history %}
-    <div class="card">
-        <h2>Attendance History</h2>
-
-        <form method="get">
-            <input type="hidden" name="show_history" value="1">
-
-            <select name="month">
-                {% for m in months %}
-                    <option value="{{ m.month }}"
-                        {% if m.month == selected_month and m.year == selected_year %} selected {% endif %}>
-                        {{ m.month }} - {{ m.year }}
-                    </option>
-                {% endfor %}
-            </select>
-
-            <button type="submit" class="btn login-btn" style="margin-top:10px;">
-                Filter
-            </button>
-        </form>
-
-        <!-- ✅ SCROLL WRAPPER ADDED -->
-        <div class="history-scroll">
-            <table>
-                <tr>
-                    <th>Date</th>
-                    <th>Check In</th>
-                    <th>Check Out</th>
-                    <th>Total Hours</th>
-                    <th>Status</th>
-                </tr>
-
-                {% for att in attendance_history %}
-                <tr>
-                    <td>{{ att.date }}</td>
-                    <td>{{ att.check_in }}</td>
-                    <td>{{ att.check_out }}</td>
-                    <td>{{ att.total_hours }}</td>
-                    <td>{{ att.status }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5">No attendance found for this month.</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Check In</th>
+          <th>Check Out</th>
+          <th>Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in attendance_history %}
+        <tr>
+          <td>{{ a.date }}</td>
+          <td>
+            {% if 'present' in a.status|lower %}
+              <span class="badge" style="background:#EAF3DE;color:#27500A">✅ Present</span>
+            {% elif 'absent' in a.status|lower %}
+              <span class="badge" style="background:#FCEBEB;color:#A32D2D">❌ Absent</span>
+            {% else %}
+              <span class="badge" style="background:#FAEEDA;color:#633806">🏖️ Leave</span>
+            {% endif %}
+          </td>
+          <td>{{ a.check_in|default:"-" }}</td>
+          <td>{{ a.check_out|default:"-" }}</td>
+          <td>{{ a.total_hours }}h</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" style="text-align:center;padding:2rem;color:#9CA3AF">
+            No records for this period.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div style="text-align:center;padding:2rem;color:#9CA3AF;font-size:13px">
+      Month and Year select  "View History" click.
     </div>
     {% endif %}
+  </div>
 
+  {% endif %}
 </div>
-
 </body>
 </html>
